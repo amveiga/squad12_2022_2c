@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.aninfo'
+group = 'com.recursos'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 

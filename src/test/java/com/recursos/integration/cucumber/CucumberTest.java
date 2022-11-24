@@ -1,4 +1,4 @@
-package com.aninfo.integration.cucumber;
+package com.recursos.integration.cucumber;
 
 import org.junit.runner.RunWith;
 import cucumber.api.CucumberOptions;

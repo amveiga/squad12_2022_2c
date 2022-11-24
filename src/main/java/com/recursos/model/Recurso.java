@@ -1,9 +1,9 @@
-package com.aninfo.model;
+package com.recursos.model;
 
 import javax.persistence.*;
 
 @Entity
-public class Account {
+public class Recurso {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,10 +11,10 @@ public class Account {
 
     private Double balance;
 
-    public Account(){
+    public Recurso(){
     }
 
-    public Account(Double balance) {
+    public Recurso(Double balance) {
         this.balance = balance;
     }
 

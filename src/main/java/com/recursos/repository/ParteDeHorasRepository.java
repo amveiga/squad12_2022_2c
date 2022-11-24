@@ -1,15 +1,15 @@
-package com.aninfo.repository;
+package com.recursos.repository;
 
-import com.aninfo.model.Transaction;
+import com.recursos.model.ParteDeHoras;
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 @RepositoryRestResource
-public interface TransactionRepository extends CrudRepository<Transaction, Long> {
+public interface ParteDeHorasRepository extends CrudRepository<ParteDeHoras, Long> {
 
 
     @Override
-    List<Transaction> findAll();
+    List<ParteDeHoras> findAll();
 
 }

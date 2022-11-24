@@ -1,9 +1,9 @@
-package com.aninfo.model;
+package com.recursos.model;
 
 import javax.persistence.*;
 
 @Entity
-public class Transaction {
+public class ParteDeHoras {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -15,10 +15,10 @@ public class Transaction {
 
     private Double amount;
 
-    public Transaction() {
+    public ParteDeHoras() {
     }
 
-    public Transaction(double amount) { this.amount = amount; }
+    public ParteDeHoras(double amount) { this.amount = amount; }
 
     public Long getTransactionID() {return transactionID; }
 

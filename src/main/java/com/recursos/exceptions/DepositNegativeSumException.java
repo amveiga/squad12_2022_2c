@@ -1,12 +1,12 @@
-package com.aninfo.exceptions;
+package com.recursos.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class InvalidTransactionTypeException extends RuntimeException {
+public class DepositNegativeSumException extends RuntimeException {
 
-    public InvalidTransactionTypeException(String message) {
+    public DepositNegativeSumException(String message) {
         super(message);
     }
 }

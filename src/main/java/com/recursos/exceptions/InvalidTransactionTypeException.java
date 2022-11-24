@@ -1,12 +1,12 @@
-package com.aninfo.exceptions;
+package com.recursos.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class InsufficientFundsException extends RuntimeException {
+public class InvalidTransactionTypeException extends RuntimeException {
 
-    public InsufficientFundsException(String message) {
+    public InvalidTransactionTypeException(String message) {
         super(message);
     }
 }
