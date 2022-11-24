@@ -6,3 +6,31 @@ DELETE* FROM RECURSO [42001-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DELETE FROM RECURSO *[*]"
 Syntax error in SQL statement "DELETE FROM RECURSO *[*]"; SQL statement:
 DELETE FROM RECURSO * [42000-200]
+2022-11-24 13:07:03 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "LEGAJO[*]"
+Syntax error in SQL statement "LEGAJO[*]"; SQL statement:
+LEGAJO [42000-200]
+2022-11-24 13:07:10 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "APELLIDO[*]"; se esperaba "ALTER, ANALYZE"
+Syntax error in SQL statement "APELLIDO[*]"; expected "ALTER, ANALYZE"; SQL statement:
+APELLIDO [42001-200]
+2022-11-24 13:10:54 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM RECURSO 1[*]"
+Syntax error in SQL statement "SELECT * FROM RECURSO 1[*]"; SQL statement:
+SELECT * FROM RECURSO 1 [42000-200]
+2022-11-24 13:11:03 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "LEGAJO[*]"
+Syntax error in SQL statement "LEGAJO[*]"; SQL statement:
+LEGAJO [42000-200]
+2022-11-24 13:11:06 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "LEGAJO[*] 1"
+Syntax error in SQL statement "LEGAJO[*] 1"; SQL statement:
+LEGAJO 1 [42000-200]
+2022-11-24 13:11:08 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "LEGAJO[*] 1"
+Syntax error in SQL statement "LEGAJO[*] 1"; SQL statement:
+LEGAJO 1 [42000-200]
+2022-11-24 13:11:16 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM RECURSO 1[*]"
+Syntax error in SQL statement "SELECT * FROM RECURSO 1[*]"; SQL statement:
+SELECT * FROM RECURSO 1 [42000-200]
