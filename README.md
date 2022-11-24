@@ -1,1 +1,2 @@
-# squad12_2022_2c
+# memo1-bank-app
+Memo1 - Backend API
