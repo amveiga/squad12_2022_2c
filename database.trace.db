@@ -34,3 +34,7 @@ LEGAJO 1 [42000-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * FROM RECURSO 1[*]"
 Syntax error in SQL statement "SELECT * FROM RECURSO 1[*]"; SQL statement:
 SELECT * FROM RECURSO 1 [42000-200]
+2022-11-24 13:28:53 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "FECHA[*]"
+Syntax error in SQL statement "FECHA[*]"; SQL statement:
+FECHA [42000-200]

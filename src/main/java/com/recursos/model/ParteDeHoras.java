@@ -10,16 +10,23 @@ public class ParteDeHoras {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long parteDeHorasID;
 
-    private Date fecha;
+    private Date fechaDeLaCarga;
+
+    private String estado;
+
 
     public ParteDeHoras() {
     }
 
     public Long getParteDeHorasID() {return parteDeHorasID; }
 
-    public Long getFecha() {return fecha.getTime(); }
+    public Date getFechaDeLaCarga() {return fechaDeLaCarga; }
+
+    public String getEstado() {return estado; }
 
     public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
 
-    public void setFecha(Date fecha) { this.fecha = fecha; }
+    public void setFechaDeLaCarga(Date fechaDeLaCarga) { this.fechaDeLaCarga = fechaDeLaCarga; }
+
+    public void setEstado(String estado) { this.estado = estado; }
 }

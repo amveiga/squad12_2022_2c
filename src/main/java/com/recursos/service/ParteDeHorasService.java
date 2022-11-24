@@ -15,14 +15,20 @@ public class ParteDeHorasService {
     @Autowired
     private ParteDeHorasRepository parteDeHorasRepository;
 
-    public ParteDeHoras createTransaction(ParteDeHoras parteDeHoras) {
+    public ParteDeHoras createParteDeHoras (ParteDeHoras parteDeHoras) {
 
         return parteDeHorasRepository.save(parteDeHoras);
     }
 
-    public Collection<ParteDeHoras> getParteDeHoras() { return parteDeHorasRepository.findAll(); }
+    public Collection<ParteDeHoras> getParteDeHoras() {
+        return parteDeHorasRepository.findAll();
+    }
 
-    public void save(ParteDeHoras parteDeHoras) { parteDeHorasRepository.save(parteDeHoras); }
+    public void save(ParteDeHoras parteDeHoras) {
+        parteDeHorasRepository.save(parteDeHoras);
+    }
 
-    public void deleteById(Long Id) { parteDeHorasRepository.deleteById(Id); }
+    public void deleteById(Long Id) {
+        parteDeHorasRepository.deleteById(Id);
+    }
 }
