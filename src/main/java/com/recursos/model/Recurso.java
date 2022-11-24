@@ -6,32 +6,37 @@ import javax.persistence.*;
 public class Recurso {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long cbu;
+    private Long legajo;
 
-    private Double balance;
+    private String nombre;
+
+    private String apellido;
 
     public Recurso(){
     }
 
-    public Recurso(Double balance) {
-        this.balance = balance;
+    public Long getLegajo() {
+        return legajo;
     }
 
-    public Long getCbu() {
-        return cbu;
+    public void setLegajo(Long legajo) {
+        this.legajo = legajo;
     }
 
-    public void setCbu(Long cbu) {
-        this.cbu = cbu;
+    public String getNombre() {
+        return nombre;
     }
 
-    public Double getBalance() {
-        return balance;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
 }

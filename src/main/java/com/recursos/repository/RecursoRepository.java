@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface RecursoRepository extends CrudRepository<Recurso, Long> {
 
-    Recurso findAccountByCbu(Long cbu);
+    Recurso findAccountByLegajo(Long legajo);
 
     @Override
     List<Recurso> findAll();

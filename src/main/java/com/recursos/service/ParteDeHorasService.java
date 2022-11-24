@@ -20,22 +20,9 @@ public class ParteDeHorasService {
         return parteDeHorasRepository.save(parteDeHoras);
     }
 
-    public Collection<ParteDeHoras> getTransactions() { return parteDeHorasRepository.findAll(); }
-
-    public Optional<ParteDeHoras> findById(Long transactionId) { return parteDeHorasRepository.findById(transactionId); }
-    public Collection<ParteDeHoras> findByCbu(Long cbu) {
-        Collection<ParteDeHoras> cbuParteDeHoras = new ArrayList<>();
-
-        for (ParteDeHoras parteDeHoras : parteDeHorasRepository.findAll()) {
-            if (parteDeHoras.getCbu().equals(cbu)) {
-                cbuParteDeHoras.add(parteDeHoras);
-            }
-        }
-
-        return cbuParteDeHoras;
-    }
+    public Collection<ParteDeHoras> getParteDeHoras() { return parteDeHorasRepository.findAll(); }
 
     public void save(ParteDeHoras parteDeHoras) { parteDeHorasRepository.save(parteDeHoras); }
 
-    public void deleteById(Long cbu) { parteDeHorasRepository.deleteById(cbu); }
+    public void deleteById(Long Id) { parteDeHorasRepository.deleteById(Id); }
 }

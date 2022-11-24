@@ -1,0 +1,8 @@
+2022-11-24 12:13:48 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DELETE*[*] FROM RECURSO"; se esperaba "identifier"
+Syntax error in SQL statement "DELETE*[*] FROM RECURSO"; expected "identifier"; SQL statement:
+DELETE* FROM RECURSO [42001-200]
+2022-11-24 12:14:29 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DELETE FROM RECURSO *[*]"
+Syntax error in SQL statement "DELETE FROM RECURSO *[*]"; SQL statement:
+DELETE FROM RECURSO * [42000-200]
