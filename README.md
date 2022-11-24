@@ -1,2 +1,2 @@
-# memo1-bank-app
-Memo1 - Backend API
+# Modulo de Recursos
+Squad 12 - Backend API
