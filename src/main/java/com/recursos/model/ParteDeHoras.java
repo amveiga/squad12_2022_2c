@@ -10,6 +10,8 @@ public class ParteDeHoras {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long parteDeHorasID;
 
+    private Long legajoEmpleado;
+
     private Date fechaDeLaCarga;
 
     private String estado;
@@ -18,13 +20,17 @@ public class ParteDeHoras {
     public ParteDeHoras() {
     }
 
-    public Long getParteDeHorasID() {return parteDeHorasID; }
+    public Long getParteDeHorasID() { return parteDeHorasID; }
 
-    public Date getFechaDeLaCarga() {return fechaDeLaCarga; }
+    public Long getLegajoEmpleado() { return legajoEmpleado; }
 
-    public String getEstado() {return estado; }
+    public Date getFechaDeLaCarga() { return fechaDeLaCarga; }
+
+    public String getEstado() { return estado; }
 
     public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
+
+    public void setLegajoEmpleado(Long legajoEmpleado) { this.legajoEmpleado = legajoEmpleado; }
 
     public void setFechaDeLaCarga(Date fechaDeLaCarga) { this.fechaDeLaCarga = fechaDeLaCarga; }
 

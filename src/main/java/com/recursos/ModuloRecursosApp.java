@@ -1,7 +1,9 @@
 package com.recursos;
 
+import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
+import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -17,7 +19,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -31,6 +32,9 @@ public class ModuloRecursosApp {
 	// TODO: aca declaramos los servicios
 	@Autowired
 	private RecursoService recursoService;
+
+	@Autowired
+	private ParteDeHorasService parteDeHorasService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ModuloRecursosApp.class, args);
@@ -62,6 +66,38 @@ public class ModuloRecursosApp {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByName(nombre, apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
+
+	// PARTE DE HORAS
+
+	@PostMapping("recursos/{legajo}/parte_de_horas")
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
+		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
+
+		if(optionalRecurso.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}
+
+		parteDeHorasService.createParteDeHoras(parteDeHoras);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("recursos/parte_de_horas")
+	public Collection<ParteDeHoras> getPartesDeHoras() { return parteDeHorasService.getParteDeHoras(); }
+
+	@GetMapping("/recursos/{legajo}/parte_de_horas")
+	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
+		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
+
+		if(optionalRecurso.isEmpty()) {
+			return ResponseEntity.notFound().build();
+		}
+
+		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
+		return ResponseEntity.of(optionalParteDeHoras);
+	}
+
 
 	@Bean
 	public Docket apiDocket() {
