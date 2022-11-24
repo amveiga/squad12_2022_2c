@@ -14,5 +14,5 @@ public class ParteDeHoras {
 
     public Long getParteDeHorasID() {return parteDeHorasID; }
 
-    public void setParteDeHorasID(Long transactionID) { this.parteDeHorasID = transactionID; }
+    public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
 }
