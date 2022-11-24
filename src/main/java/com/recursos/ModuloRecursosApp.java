@@ -63,7 +63,19 @@ public class ModuloRecursosApp {
 	// TODO: verificar que esta es la manera correcta de mandar los parámetros
 	@GetMapping("/recursos/{nombre}/{apellido}")
 	public ResponseEntity<Collection<Recurso>> getRecursoByName(@PathVariable String nombre, @PathVariable String apellido) {
-		Optional<Collection<Recurso>> recursosOptional = recursoService.findByName(nombre, apellido);
+		Optional<Collection<Recurso>> recursosOptional = recursoService.findByNameAndFamilyName(nombre, apellido);
+		return ResponseEntity.of(recursosOptional);
+	}
+
+	@GetMapping("/recursos/{nombre}")
+	public ResponseEntity<Collection<Recurso>> getRecursoByFirstName(@PathVariable String nombre) {
+		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFirstName(nombre);
+		return ResponseEntity.of(recursosOptional);
+	}
+
+	@GetMapping("/recursos/{apellido}")
+	public ResponseEntity<Collection<Recurso>> getRecursoByFamilyName(@PathVariable String apellido) {
+		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFamilyName(apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
 
@@ -78,9 +90,11 @@ public class ModuloRecursosApp {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 
-		parteDeHorasService.createParteDeHoras(parteDeHoras);
-
-		return ResponseEntity.ok().build();
+		Optional<ParteDeHoras> optionalParteDeHoras = parteDeHorasService.createParteDeHoras(parteDeHoras);
+		if(optionalParteDeHoras.isEmpty()) {
+			return ResponseEntity.badRequest().build();
+		}
+		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
 	@GetMapping("recursos/parte_de_horas")
@@ -97,7 +111,6 @@ public class ModuloRecursosApp {
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
-
 
 	@Bean
 	public Docket apiDocket() {

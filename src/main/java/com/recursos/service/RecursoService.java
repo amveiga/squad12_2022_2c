@@ -5,7 +5,6 @@ import com.recursos.repository.RecursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -35,15 +34,23 @@ public class RecursoService {
         recursoRepository.deleteById(legajo);
     }
 
-    public Optional<Collection<Recurso>> findByName(String nombre, String apellido) {
-        Collection<Recurso> recursos = new ArrayList<>();
+    public Optional<Collection<Recurso>> findByNameAndFamilyName(String nombre, String apellido) {
+        Collection<Recurso> recursos = recursoRepository.findRecursosByApellidoAndNombre(apellido,nombre);
+        if (recursos.isEmpty()) {
+            return Optional.empty();
+        } else return Optional.of(recursos);
+    }
 
-        for (Recurso recurso: recursoRepository.findAll()) {
-            if (recurso.getNombre().equals(nombre) && recurso.getApellido().equals(apellido)) {
-                recursos.add(recurso);
-            }
-        }
-        if (recursos.size() == 0) {
+    public Optional<Collection<Recurso>> findByFirstName(String nombre) {
+        Collection<Recurso> recursos = recursoRepository.findRecursosByNombre(nombre);
+        if (recursos.isEmpty()) {
+            return Optional.empty();
+        } else return Optional.of(recursos);
+    }
+
+    public Optional<Collection<Recurso>> findByFamilyName(String apellido) {
+        Collection<Recurso> recursos = recursoRepository.findRecursosByApellido(apellido);
+        if (recursos.isEmpty()) {
             return Optional.empty();
         } else return Optional.of(recursos);
     }

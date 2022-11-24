@@ -8,7 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource
 public interface ParteDeHorasRepository extends CrudRepository<ParteDeHoras, Long> {
 
-    ParteDeHoras findParteDeHorasByParteDeHorasID(Long id);
+    List<ParteDeHoras> findParteDeHorasByLegajoEmpleado(Long legajo);
 
     @Override
     List<ParteDeHoras> findAll();

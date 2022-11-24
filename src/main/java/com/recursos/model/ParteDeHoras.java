@@ -31,6 +31,7 @@ public class ParteDeHoras {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long parteDeHorasID;
+    private Long tareaID;
     private Long legajoEmpleado;
     private int cantidadDeHorasTrabajadas;
     private Date fechaDeLaTareaACargar;
@@ -41,9 +42,13 @@ public class ParteDeHoras {
     public ParteDeHoras() {
     }
 
+    // GETTERS
     public Long getParteDeHorasID() { return parteDeHorasID; }
 
+    public Long getTareaID() { return tareaID; }
+
     public Long getLegajoEmpleado() { return legajoEmpleado; }
+    public int getCantidadDeHorasTrabajadas() { return cantidadDeHorasTrabajadas; }
 
     public Date getFechaDeLaTareaACargar() { return fechaDeLaTareaACargar; }
 
@@ -51,13 +56,20 @@ public class ParteDeHoras {
 
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
 
+    // SETTERS
+
     public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
 
+    public void setTareaID(Long tareaID) { this.tareaID = tareaID; }
+
     public void setLegajoEmpleado(Long legajoEmpleado) { this.legajoEmpleado = legajoEmpleado; }
+
+    public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
 
     public void setFechaDeLaTareaACargar(Date fechaDeLaCarga) { this.fechaDeLaTareaACargar = fechaDeLaCarga; }
 
     public void setEstado(Estado estado) { this.estado = estado; }
 
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
+
 }

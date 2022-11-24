@@ -7,9 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.util.*;
 
 @Service
 public class ParteDeHorasService {
@@ -17,21 +16,27 @@ public class ParteDeHorasService {
     @Autowired
     private ParteDeHorasRepository parteDeHorasRepository;
 
-    public ParteDeHoras createParteDeHoras (ParteDeHoras parteDeHoras) {
-        return parteDeHorasRepository.save(parteDeHoras);
+    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
+        Date todayDate = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(todayDate);
+        int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
+        c.add(Calendar.DATE, -i - 7);
+        Date aWeekAgo = c.getTime();
+
+        if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
+            return Optional.empty();
+        }
+
+        return Optional.of(parteDeHorasRepository.save(parteDeHoras));
     }
 
     public Collection<ParteDeHoras> getParteDeHoras() { return parteDeHorasRepository.findAll(); }
 
     public Optional<Collection<ParteDeHoras>> getPartesByLegajo(Long legajo) {
-        Collection<ParteDeHoras> parteDeHoras = new ArrayList<>();
+        List<ParteDeHoras> parteDeHoras = parteDeHorasRepository.findParteDeHorasByLegajoEmpleado(legajo);
 
-        for (ParteDeHoras parteDeHora: parteDeHorasRepository.findAll()) {
-            if (parteDeHora.getLegajoEmpleado().equals(legajo)) {
-                parteDeHoras.add(parteDeHora);
-            }
-        }
-        if (parteDeHoras.size() == 0) {
+        if (parteDeHoras.isEmpty()) {
             return Optional.empty();
         } else return Optional.of(parteDeHoras);
     }
