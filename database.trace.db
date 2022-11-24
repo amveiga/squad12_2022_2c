@@ -54,3 +54,15 @@ DELETE TABLE PARTE_DE_HORAS [42001-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DROP RECURSO[*] RECURSO"; se esperaba "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"
 Syntax error in SQL statement "DROP RECURSO[*] RECURSO"; expected "TABLE, INDEX, USER, SEQUENCE, CONSTANT, TRIGGER, VIEW, ROLE, ALIAS, SCHEMA, ALL, DOMAIN, TYPE, DATATYPE, AGGREGATE, SYNONYM"; SQL statement:
 DROP RECURSO RECURSO [42001-200]
+2022-11-24 19:05:34 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DROP TABLE PARTE DE[*] HORAS"
+Syntax error in SQL statement "DROP TABLE PARTE DE[*] HORAS"; SQL statement:
+DROP TABLE PARTE DE HORAS [42000-200]
+2022-11-24 19:05:37 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "DROP TABLE PARTE DE[*] HORAS"
+Syntax error in SQL statement "DROP TABLE PARTE DE[*] HORAS"; SQL statement:
+DROP TABLE PARTE DE HORAS [42000-200]
+2022-11-24 19:06:12 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
+Table "RECURSO" not found; SQL statement:
+DROP TABLE RECURSO [42102-200]

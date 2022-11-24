@@ -37,7 +37,7 @@ public class ParteDeHoras {
     private Date fechaDeLaTareaACargar;
     private Tipo tipoDeParteDeHoras;
     private Estado estado;
-
+    private Ubicacion ubicacion;
 
     public ParteDeHoras() {
     }
@@ -56,8 +56,9 @@ public class ParteDeHoras {
 
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
 
-    // SETTERS
+    public Ubicacion getUbicacion() { return ubicacion; }
 
+    // SETTERS
     public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
 
     public void setTareaID(Long tareaID) { this.tareaID = tareaID; }
@@ -71,5 +72,7 @@ public class ParteDeHoras {
     public void setEstado(Estado estado) { this.estado = estado; }
 
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
+
+    public void setUbicacion(Ubicacion ubicacion) { this.ubicacion = ubicacion; }
 
 }
