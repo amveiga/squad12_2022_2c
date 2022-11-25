@@ -10,6 +10,9 @@ public interface ParteDeHorasRepository extends CrudRepository<ParteDeHoras, Lon
 
     List<ParteDeHoras> findParteDeHorasByLegajoEmpleado(Long legajo);
 
+    ParteDeHoras findParteDeHorasByParteDeHorasID(Long parteDeHorasID);
+
+
     @Override
     List<ParteDeHoras> findAll();
 

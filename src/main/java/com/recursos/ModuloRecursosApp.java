@@ -1,6 +1,7 @@
 package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
+import com.recursos.exceptions.ParteDeHorasVacioException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -96,7 +97,7 @@ public class ModuloRecursosApp {
 
 	// ******   PARTE DE HORAS  ******
 
-	@PostMapping("recursos/{legajo}/parte_de_horas")
+	@PostMapping("/recursos/{legajo}/parte_de_horas")
 	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo", notes = "No se puede cargar un parte de horas anterior a la semana actual")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
@@ -110,7 +111,7 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
-	@GetMapping("recursos/parte_de_horas")
+	@GetMapping("/recursos/parte_de_horas")
 	@ApiOperation(value = "Obtener todos los partes de horas")
 	public Collection<ParteDeHoras> getPartesDeHoras() { return parteDeHorasService.getParteDeHoras(); }
 
@@ -127,6 +128,18 @@ public class ModuloRecursosApp {
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
+
+	@PutMapping("/recursos/parte_de_horas/{ESTADO}")
+	@ApiOperation(value = "Modificar el parte de horas de un recurso por legajo")
+	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, String estadoNuevo) {
+
+		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
+		parteDeHoras.setEstado(estadoNuevo);
+
+		parteDeHorasService.save(parteDeHoras);
+		return ResponseEntity.ok().build();
+	}
+
 
 
 	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")

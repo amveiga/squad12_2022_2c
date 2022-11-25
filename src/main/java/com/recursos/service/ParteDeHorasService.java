@@ -1,6 +1,7 @@
 package com.recursos.service;
 
 import com.recursos.exceptions.CargaInvalidaException;
+import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 import com.recursos.repository.ParteDeHorasRepository;
@@ -46,6 +47,14 @@ public class ParteDeHorasService {
         if (parteDeHoras.isEmpty()) {
             return Optional.empty();
         } else return Optional.of(parteDeHoras);
+    }
+
+
+    public ParteDeHoras getPartesByID(Long parteDeHorasID) {
+        ParteDeHoras parteDeHoras = parteDeHorasRepository.findParteDeHorasByParteDeHorasID(parteDeHorasID);
+        if (parteDeHoras == null) {
+            throw new ParteDeHorasNoEncontradoException("No se encontró el parte de horas");
+        } else return parteDeHoras;
     }
 
     public void save(ParteDeHoras parteDeHoras) {

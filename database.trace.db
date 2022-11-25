@@ -66,3 +66,19 @@ DROP TABLE PARTE DE HORAS [42000-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
 Table "RECURSO" not found; SQL statement:
 DROP TABLE RECURSO [42102-200]
+2022-11-25 19:42:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"
+Data conversion error converting "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"; SQL statement:
+insert into parte_de_horas (cantidad_de_horas_trabajadas, estado, fecha_de_la_tareaacargar, legajo_empleado, tareaid, tipo_de_parte_de_horas, parte_de_horasid) values (?, ?, ?, ?, ?, ?, ?) [22018-200]
+2022-11-25 19:43:11 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"
+Data conversion error converting "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"; SQL statement:
+insert into parte_de_horas (cantidad_de_horas_trabajadas, estado, fecha_de_la_tareaacargar, legajo_empleado, tareaid, tipo_de_parte_de_horas, parte_de_horasid) values (?, ?, ?, ?, ?, ?, ?) [22018-200]
+2022-11-25 19:43:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Conversión de datos fallida, convirtiendo "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"
+Data conversion error converting "'BORRADOR' (PARTE_DE_HORAS: ""ESTADO"" INTEGER)"; SQL statement:
+insert into parte_de_horas (cantidad_de_horas_trabajadas, estado, fecha_de_la_tareaacargar, legajo_empleado, tareaid, tipo_de_parte_de_horas, parte_de_horasid) values (?, ?, ?, ?, ?, ?, ?) [22018-200]
+2022-11-25 19:45:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
+Table "RECURSO" not found; SQL statement:
+select recurso0_.legajo as legajo1_1_, recurso0_.apellido as apellido2_1_, recurso0_.nombre as nombre3_1_ from recurso recurso0_ [42102-200]

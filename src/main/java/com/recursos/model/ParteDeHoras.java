@@ -1,5 +1,7 @@
 package com.recursos.model;
 
+import com.recursos.exceptions.EstadoInvalidoException;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,12 +15,14 @@ enum Tipo {
     LICENCIA
 }
 
+/*
 enum Estado {
     BORRADOR,
     VALIDACION_PENDIENTE,
     APROBADO,
     DESAPROBADO
 }
+*/
 
 
 @Entity
@@ -32,7 +36,7 @@ public class ParteDeHoras {
     private int cantidadDeHorasTrabajadas;
     private Date fechaDeLaTareaACargar;
     private Tipo tipoDeParteDeHoras;
-    private Estado estado;
+    private String estado;
 
     public ParteDeHoras() {
     }
@@ -47,7 +51,7 @@ public class ParteDeHoras {
 
     public Date getFechaDeLaTareaACargar() { return fechaDeLaTareaACargar; }
 
-    public Estado getEstado() { return estado; }
+    public String getEstado() { return estado; }
 
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
 
@@ -63,7 +67,18 @@ public class ParteDeHoras {
 
     public void setFechaDeLaTareaACargar(Date fechaDeLaCarga) { this.fechaDeLaTareaACargar = fechaDeLaCarga; }
 
-    public void setEstado(Estado estado) { this.estado = estado; }
+    public void setEstado(String estado) {
+        verificarEstado(estado);
+        this.estado = estado;
+    }
+
+    private void verificarEstado(String estado) {
+        if ( (estado.equalsIgnoreCase("BORRADOR")) || (estado.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estado.equalsIgnoreCase("APROBADO")) || (estado.equalsIgnoreCase("DESAPROBADO")) ) {
+            return;
+        } else {
+            throw new EstadoInvalidoException("Estado invalido");
+        }
+    }
 
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
 
