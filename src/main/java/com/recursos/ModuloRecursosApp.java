@@ -112,6 +112,17 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
+	@DeleteMapping("/recusos/{legajo}")
+	public void deleteRecurso(@PathVariable Long legajo) {
+		recursoService.deleteById(legajo);
+	}
+
+	@DeleteMapping("/recusos/parte_de_horas")
+	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
+		parteDeHorasService.deleteById(parteDeHorasID);
+	}
+
+
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)

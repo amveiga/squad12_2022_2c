@@ -1,5 +1,6 @@
 package com.recursos.service;
 
+import com.recursos.exceptions.CargaInvalidaException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 import com.recursos.repository.ParteDeHorasRepository;
@@ -16,15 +17,23 @@ public class ParteDeHorasService {
     @Autowired
     private ParteDeHorasRepository parteDeHorasRepository;
 
-    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
+
+    public Date calcularSemanaAnterior() {
         Date todayDate = new Date();
         Calendar c = Calendar.getInstance();
         c.setTime(todayDate);
         int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
         c.add(Calendar.DATE, -i - 7);
         Date aWeekAgo = c.getTime();
+        return aWeekAgo;
+    }
+
+    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
+        Date aWeekAgo = calcularSemanaAnterior();
 
         if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
+            // No se pueden agregar horas trabajadas pasada 1 semana
+            //throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
             return Optional.empty();
         }
 

@@ -20,10 +20,6 @@ enum Estado {
     DESAPROBADO
 }
 
-enum Ubicacion {
-    REMOTO,
-    OFICINA
-}
 
 @Entity
 public class ParteDeHoras {
@@ -37,7 +33,6 @@ public class ParteDeHoras {
     private Date fechaDeLaTareaACargar;
     private Tipo tipoDeParteDeHoras;
     private Estado estado;
-    private Ubicacion ubicacion;
 
     public ParteDeHoras() {
     }
@@ -56,7 +51,6 @@ public class ParteDeHoras {
 
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
 
-    public Ubicacion getUbicacion() { return ubicacion; }
 
     // SETTERS
     public void setParteDeHorasID(Long parteDeHorasID) { this.parteDeHorasID = parteDeHorasID; }
@@ -73,6 +67,5 @@ public class ParteDeHoras {
 
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
 
-    public void setUbicacion(Ubicacion ubicacion) { this.ubicacion = ubicacion; }
 
 }
