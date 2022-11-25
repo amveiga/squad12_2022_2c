@@ -2,7 +2,6 @@ package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
-import com.recursos.exceptions.ParteDeHorasVacioException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 

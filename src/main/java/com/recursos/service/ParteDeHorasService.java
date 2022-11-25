@@ -3,13 +3,11 @@ package com.recursos.service;
 import com.recursos.exceptions.CargaInvalidaException;
 import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
-import com.recursos.model.Recurso;
 import com.recursos.repository.ParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.time.LocalTime;
+
 import java.util.*;
 
 @Service
@@ -25,11 +23,14 @@ public class ParteDeHorasService {
         c.setTime(todayDate);
         int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
         c.add(Calendar.DATE, -i - 7);
-        Date aWeekAgo = c.getTime();
-        return aWeekAgo;
+        return (c.getTime());
     }
 
     public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
+        if (parteDeHoras.getCantidadDeHorasTrabajadas() <= 0) {
+            throw new CargaInvalidaException("No se pueden cargar 0 o menos horas de trabajo");
+        }
+
         Date aWeekAgo = calcularSemanaAnterior();
 
         if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
