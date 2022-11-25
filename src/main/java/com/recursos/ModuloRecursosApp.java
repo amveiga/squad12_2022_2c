@@ -1,5 +1,7 @@
 package com.recursos;
 
+import com.recursos.exceptions.CargaInvalidaException;
+import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -93,14 +95,15 @@ public class ModuloRecursosApp {
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
-
 		if(optionalRecurso.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			throw new LegajoNoEncontradoException("No se encontró el legajo");
+			//return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
 
 		Optional<ParteDeHoras> optionalParteDeHoras = parteDeHorasService.createParteDeHoras(parteDeHoras);
 		if(optionalParteDeHoras.isEmpty()) {
-			return ResponseEntity.badRequest().build();
+			throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
+			//return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
@@ -115,7 +118,8 @@ public class ModuloRecursosApp {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
 
 		if(optionalRecurso.isEmpty()) {
-			return ResponseEntity.notFound().build();
+			throw new LegajoNoEncontradoException("No se encontró el legajo");
+			//return ResponseEntity.notFound().build();
 		}
 
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
