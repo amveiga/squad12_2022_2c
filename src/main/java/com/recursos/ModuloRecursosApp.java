@@ -1,6 +1,7 @@
 package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
+import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.exceptions.ParteDeHorasVacioException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
@@ -129,12 +130,15 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
-	@PutMapping("/recursos/parte_de_horas/{ESTADO}")
-	@ApiOperation(value = "Modificar el parte de horas de un recurso por legajo")
-	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, String estadoNuevo) {
+	@PutMapping("/recursos/parte_de_horas/{estado}")
+	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID")
+	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
-		parteDeHoras.setEstado(estadoNuevo);
+		if (parteDeHoras.getEstado().equalsIgnoreCase("APROBADO")) {
+			throw new NoSePuedeModificarUnParteAprobadoException("No se puede cambiar el estado de un parte ya aprobado");
+		}
+		parteDeHoras.setEstado(estado);
 
 		parteDeHorasService.save(parteDeHoras);
 		return ResponseEntity.ok().build();
