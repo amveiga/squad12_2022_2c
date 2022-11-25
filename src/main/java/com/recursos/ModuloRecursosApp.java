@@ -1,6 +1,5 @@
 package com.recursos;
 
-import com.recursos.exceptions.CargaInvalidaException;
 import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
@@ -45,7 +44,7 @@ public class ModuloRecursosApp {
 
 	// TODO: aca van los endpoints
 
-	// RECURSOS
+	// ******   RECURSOS  ******
 	@PostMapping("/recursos")
 	@ApiOperation(value = "Crear un recurso nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -88,7 +87,14 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(recursosOptional);
 	}
 
-	// PARTE DE HORAS
+	@DeleteMapping("/recursos/{legajo}")
+	@ApiOperation(value = "Eliminar un recurso por legajo")
+	public void deleteRecurso(@PathVariable Long legajo) {
+		recursoService.deleteById(legajo);
+	}
+
+
+	// ******   PARTE DE HORAS  ******
 
 	@PostMapping("recursos/{legajo}/parte_de_horas")
 	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo", notes = "No se puede cargar un parte de horas anterior a la semana actual")
@@ -101,10 +107,6 @@ public class ModuloRecursosApp {
 		}
 
 		Optional<ParteDeHoras> optionalParteDeHoras = parteDeHorasService.createParteDeHoras(parteDeHoras);
-		if(optionalParteDeHoras.isEmpty()) {
-			throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
-			//return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-		}
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
@@ -126,13 +128,8 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
-	@DeleteMapping("/recusos/{legajo}")
-	@ApiOperation(value = "Eliminar un recurso por legajo")
-	public void deleteRecurso(@PathVariable Long legajo) {
-		recursoService.deleteById(legajo);
-	}
 
-	@DeleteMapping("/recusos/parte_de_horas")
+	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
 	@ApiOperation(value = "Eliminar un parte de horas")
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
 		parteDeHorasService.deleteById(parteDeHorasID);

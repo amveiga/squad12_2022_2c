@@ -32,9 +32,7 @@ public class ParteDeHorasService {
         Date aWeekAgo = calcularSemanaAnterior();
 
         if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
-            // No se pueden agregar horas trabajadas pasada 1 semana
-            //throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
-            return Optional.empty();
+             throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
         }
 
         return Optional.of(parteDeHorasRepository.save(parteDeHoras));
