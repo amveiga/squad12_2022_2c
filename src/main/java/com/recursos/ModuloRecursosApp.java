@@ -5,6 +5,7 @@ import com.recursos.model.Recurso;
 
 import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,17 +45,20 @@ public class ModuloRecursosApp {
 
 	// RECURSOS
 	@PostMapping("/recursos")
+	@ApiOperation(value = "Crear un recurso nuevo")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Recurso crearRecurso(@RequestBody Recurso recurso) {
 		return recursoService.crearRecurso(recurso);
 	}
 
 	@GetMapping("/recursos")
+	@ApiOperation(value = "Mostrar todos los recursos")
 	public Collection<Recurso> getRecursos() {
 		return recursoService.getRecursos();
 	}
 
 	@GetMapping("/recursos/{legajo}")
+	@ApiOperation(value = "Obtener un recurso por legajo")
 	public ResponseEntity<Recurso> getRecursoById(@PathVariable Long legajo) {
 		Optional<Recurso> recursoOptional = recursoService.findById(legajo);
 		return ResponseEntity.of(recursoOptional);
@@ -62,18 +66,21 @@ public class ModuloRecursosApp {
 
 	// TODO: verificar que esta es la manera correcta de mandar los parámetros
 	@GetMapping("/recursos/{nombre}/{apellido}")
+	@ApiOperation(value = "Obtener un recurso por nombre y apellido")
 	public ResponseEntity<Collection<Recurso>> getRecursoByName(@PathVariable String nombre, @PathVariable String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByNameAndFamilyName(nombre, apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
 
 	@GetMapping("/recursos/{nombre}")
+	@ApiOperation(value = "Obtener un recurso por nombre")
 	public ResponseEntity<Collection<Recurso>> getRecursoByFirstName(@PathVariable String nombre) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFirstName(nombre);
 		return ResponseEntity.of(recursosOptional);
 	}
 
 	@GetMapping("/recursos/{apellido}")
+	@ApiOperation(value = "Obtener un recurso por apellido")
 	public ResponseEntity<Collection<Recurso>> getRecursoByFamilyName(@PathVariable String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFamilyName(apellido);
 		return ResponseEntity.of(recursosOptional);
@@ -82,6 +89,7 @@ public class ModuloRecursosApp {
 	// PARTE DE HORAS
 
 	@PostMapping("recursos/{legajo}/parte_de_horas")
+	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo", notes = "No se puede cargar un parte de horas anterior a la semana actual")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
@@ -98,9 +106,11 @@ public class ModuloRecursosApp {
 	}
 
 	@GetMapping("recursos/parte_de_horas")
+	@ApiOperation(value = "Obtener todos los partes de horas")
 	public Collection<ParteDeHoras> getPartesDeHoras() { return parteDeHorasService.getParteDeHoras(); }
 
 	@GetMapping("/recursos/{legajo}/parte_de_horas")
+	@ApiOperation(value = "Obtener los partes de horas de un recurso por legajo")
 	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
 
@@ -113,11 +123,13 @@ public class ModuloRecursosApp {
 	}
 
 	@DeleteMapping("/recusos/{legajo}")
+	@ApiOperation(value = "Eliminar un recurso por legajo")
 	public void deleteRecurso(@PathVariable Long legajo) {
 		recursoService.deleteById(legajo);
 	}
 
 	@DeleteMapping("/recusos/parte_de_horas")
+	@ApiOperation(value = "Eliminar un parte de horas")
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
 		parteDeHorasService.deleteById(parteDeHorasID);
 	}
