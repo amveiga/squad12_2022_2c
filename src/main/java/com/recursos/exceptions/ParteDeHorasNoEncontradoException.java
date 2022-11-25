@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-public class DepositNegativeSumException extends RuntimeException {
+public class ParteDeHorasNoEncontradoException extends RuntimeException {
 
-    public DepositNegativeSumException(String message) {
+    public ParteDeHorasNoEncontradoException(String message) {
         super(message);
     }
 }
