@@ -129,6 +129,20 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
+	@PutMapping("/parte_de_horas/{parteDeHorasID}")
+	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de un parte de horas de un recurso por parte de horas ID")
+	public ResponseEntity<ParteDeHoras> updatecantidadDeHorasTrabajadasDeParteDeHoras(@PathVariable Long parteDeHorasID, @RequestBody int cantidadDeHorasTrabajadas) {
+
+		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
+		parteDeHorasService.verificarCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
+
+		parteDeHoras.setCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
+
+		parteDeHorasService.save(parteDeHoras);
+		return ResponseEntity.ok().build();
+	}
+
+
 	@PutMapping("/recursos/parte_de_horas/{estado}")
 	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID")
 	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
