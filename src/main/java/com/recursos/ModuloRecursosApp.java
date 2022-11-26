@@ -97,7 +97,11 @@ public class ModuloRecursosApp {
 	// ******   PARTE DE HORAS  ******
 
 	@PostMapping("/recursos/{legajo}/parte_de_horas")
-	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo", notes = "No se puede cargar un parte de horas anterior a la semana actual")
+	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo",
+			notes = "No se puede cargar un parte de horas anterior a la semana actual\n" +
+					"No se puede cargar una cantidad de horas menor o igual a 0\n" +
+					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n" +
+					"Los tipos de tareas posibles son: TAREA_PROYECTO, INCIDENCIA, ADMINISTRATIVA_REUNION, ADMINISTRATIVA_CAPACITACION, ADMINISTRATIVA_CURSO, GUARDIA, LICENCIA")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
@@ -129,7 +133,9 @@ public class ModuloRecursosApp {
 	}
 
 	@PutMapping("/parte_de_horas/{parteDeHorasID}")
-	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de un parte de horas de un recurso por parte de horas ID")
+	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de un parte de horas de un recurso por parte de horas ID",
+			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
+					"No se puede cargar una cantidad de horas menor o igual a 0")
 	public ResponseEntity<ParteDeHoras> updatecantidadDeHorasTrabajadasDeParteDeHoras(@PathVariable Long parteDeHorasID, @RequestBody int cantidadDeHorasTrabajadas) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
@@ -145,7 +151,9 @@ public class ModuloRecursosApp {
 
 
 	@PutMapping("/recursos/parte_de_horas/{estado}")
-	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID")
+	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID",
+			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
+					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n")
 	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
