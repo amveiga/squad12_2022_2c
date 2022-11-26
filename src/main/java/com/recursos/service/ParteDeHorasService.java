@@ -1,6 +1,8 @@
 package com.recursos.service;
 
 import com.recursos.exceptions.CargaInvalidaException;
+import com.recursos.exceptions.EstadoInvalidoException;
+import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.repository.ParteDeHorasRepository;
@@ -25,6 +27,17 @@ public class ParteDeHorasService {
         c.add(Calendar.DATE, -i - 7);
         return (c.getTime());
     }
+
+    public void verificarEstado(String estadoAnterior, String estadoNuevo) {
+        if ( estadoAnterior.equalsIgnoreCase("APROBADO") ) {
+            throw new NoSePuedeModificarUnParteAprobadoException("No se puede cambiar el estado de un parte ya aprobado");
+        } else if ((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"))) {
+            return;
+        } else {
+            throw new EstadoInvalidoException("Estado invalido");
+        }
+    }
+
 
     public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
         if (parteDeHoras.getCantidadDeHorasTrabajadas() <= 0) {

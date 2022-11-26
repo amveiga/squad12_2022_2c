@@ -54,7 +54,7 @@ public class ModuloRecursosApp {
 	}
 
 	@GetMapping("/recursos")
-	@ApiOperation(value = "Mostrar todos los recursos")
+	@ApiOperation(value = "Obtener todos los recursos")
 	public Collection<Recurso> getRecursos() {
 		return recursoService.getRecursos();
 	}
@@ -134,9 +134,8 @@ public class ModuloRecursosApp {
 	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
-		if (parteDeHoras.getEstado().equalsIgnoreCase("APROBADO")) {
-			throw new NoSePuedeModificarUnParteAprobadoException("No se puede cambiar el estado de un parte ya aprobado");
-		}
+		parteDeHorasService.verificarEstado(parteDeHoras.getEstado(), estado);
+
 		parteDeHoras.setEstado(estado);
 
 		parteDeHorasService.save(parteDeHoras);

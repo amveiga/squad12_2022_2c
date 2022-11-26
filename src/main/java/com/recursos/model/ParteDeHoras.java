@@ -1,6 +1,7 @@
 package com.recursos.model;
 
 import com.recursos.exceptions.EstadoInvalidoException;
+import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -68,16 +69,7 @@ public class ParteDeHoras {
     public void setFechaDeLaTareaACargar(Date fechaDeLaCarga) { this.fechaDeLaTareaACargar = fechaDeLaCarga; }
 
     public void setEstado(String estado) {
-        verificarEstado(estado);
         this.estado = estado;
-    }
-
-    private void verificarEstado(String estado) {
-        if ( (estado.equalsIgnoreCase("BORRADOR")) || (estado.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estado.equalsIgnoreCase("APROBADO")) || (estado.equalsIgnoreCase("DESAPROBADO")) ) {
-            return;
-        } else {
-            throw new EstadoInvalidoException("Estado invalido");
-        }
     }
 
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
