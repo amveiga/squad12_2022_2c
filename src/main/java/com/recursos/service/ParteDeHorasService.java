@@ -38,12 +38,15 @@ public class ParteDeHorasService {
         }
     }
 
-
-    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
-        if (parteDeHoras.getCantidadDeHorasTrabajadas() <= 0) {
+    public void verificarCantidadDeHorasTrabajadas (int cantidadDeHorasTrabajadas) {
+        if (cantidadDeHorasTrabajadas <= 0) {
             throw new CargaInvalidaException("No se pueden cargar 0 o menos horas de trabajo");
         }
+    }
 
+
+    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
+        verificarCantidadDeHorasTrabajadas (parteDeHoras.getCantidadDeHorasTrabajadas());
         Date aWeekAgo = calcularSemanaAnterior();
 
         if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
