@@ -1,7 +1,6 @@
 package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
-import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -104,8 +103,8 @@ public class ModuloRecursosApp {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
 		if(optionalRecurso.isEmpty()) {
 			throw new LegajoNoEncontradoException("No se encontró el legajo");
-			//return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}
+		parteDeHorasService.verificarEntradaEstado(parteDeHoras.getEstado());
 
 		Optional<ParteDeHoras> optionalParteDeHoras = parteDeHorasService.createParteDeHoras(parteDeHoras);
 		return ResponseEntity.of(optionalParteDeHoras);
@@ -134,6 +133,8 @@ public class ModuloRecursosApp {
 	public ResponseEntity<ParteDeHoras> updatecantidadDeHorasTrabajadasDeParteDeHoras(@PathVariable Long parteDeHorasID, @RequestBody int cantidadDeHorasTrabajadas) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
+		parteDeHorasService.verificarSiYaEstaAprobado(parteDeHoras.getEstado());
+
 		parteDeHorasService.verificarCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
 
 		parteDeHoras.setCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
@@ -148,7 +149,8 @@ public class ModuloRecursosApp {
 	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
-		parteDeHorasService.verificarEstado(parteDeHoras.getEstado(), estado);
+		parteDeHorasService.verificarSiYaEstaAprobado(parteDeHoras.getEstado());
+		parteDeHorasService.verificarEntradaEstado(estado);
 
 		parteDeHoras.setEstado(estado);
 

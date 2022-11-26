@@ -28,10 +28,15 @@ public class ParteDeHorasService {
         return (c.getTime());
     }
 
-    public void verificarEstado(String estadoAnterior, String estadoNuevo) {
-        if ( estadoAnterior.equalsIgnoreCase("APROBADO") ) {
-            throw new NoSePuedeModificarUnParteAprobadoException("No se puede cambiar el estado de un parte ya aprobado");
-        } else if ((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"))) {
+    public void verificarSiYaEstaAprobado(String estado) {
+        if ( estado.equalsIgnoreCase("APROBADO") ) {
+            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+        }
+    }
+
+
+    public void verificarEntradaEstado(String estadoNuevo) {
+        if ((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"))) {
             return;
         } else {
             throw new EstadoInvalidoException("Estado invalido");
