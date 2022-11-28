@@ -30,7 +30,16 @@ public class RecursoIntegrationServiceTest {
         return recursoService.findById(legajo);
     }
 
-//    Optional<Collection<Recurso>> getRecursoApellido(String nombre, String apellido) {
-//        return recursoService.findByNameAndFamilyName(nombre, apellido);
-//    }
+    Optional<Collection<Recurso>> getRecursoNombreApellido(String nombre, String apellido) {
+        return recursoService.findByNameAndFamilyName(nombre, apellido);
+    }
+    Optional<Collection<Recurso>> getRecursoNombre(String nombre) {
+        return recursoService.findByFirstName(nombre);
+    }
+    Optional<Collection<Recurso>> getRecursoApellido(String apellido) {
+        return recursoService.findByFamilyName(apellido);
+    }
+    void DeleteRecursoLegajo(Long legajo) {
+        recursoService.deleteById(legajo);
+    }
 }
