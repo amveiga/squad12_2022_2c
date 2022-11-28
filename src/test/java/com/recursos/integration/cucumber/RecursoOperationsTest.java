@@ -24,20 +24,25 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
         System.out.println("Before any test execution");
     }
     @Given("^un recurso de nombre \"([^\"]*)\", apellido \"([^\"]*)\" y legajo (\\d+)$")
-    public void hay_un_recurso_de_nombre_apellido_y_legajo(String arg1, String arg2, Long arg3) {
-        // Write code here that turns the phrase above into concrete actions
-        recurso = crearRecurso(arg3, arg1, arg2);
+    public void hay_un_recurso_de_nombre_apellido_y_legajo(String nombre, String apellido, Long legajo) {
+        recurso = crearRecurso(Long.valueOf(legajo), String.valueOf(nombre), String.valueOf(apellido));
     }
 
     @When("^lo busco por legajo (\\d+)$")
-    public void cuando_lo_busco_por_legajo(Long arg1) {
-        // Write code here that turns the phrase above into concrete actions
-        recurso_buscado = getRecursoLegajo(arg1);
+    public void cuando_lo_busco_por_legajo(Long legajo) {
+        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
     }
 
     @Then("^se retorna ese recurso$")
     public void se_retorna_ese_recurso() {
-        // Write code here that turns the phrase above into concrete actions
         assertEquals(recurso.getLegajo(), recurso_buscado.get().getLegajo());
+    }
+
+    @Given("^un recurso con un nombre, apellido y legajo$")
+    public void unRecursoConUnNombreApellidoYLegajo() {
+    }
+
+    @When("^lo busco por nombre y apellido$")
+    public void loBuscoPorNombreYApellido() {
     }
 }
