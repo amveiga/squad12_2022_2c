@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.client.RestTemplate;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
@@ -24,12 +25,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.Collection;
 import java.util.Optional;
 
-
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
 @EnableSwagger2
 public class ModuloRecursosApp {
+
 
 	// TODO: aca declaramos los servicios
 	@Autowired
@@ -55,7 +56,10 @@ public class ModuloRecursosApp {
 	@GetMapping("/recursos")
 	@ApiOperation(value = "Obtener todos los recursos")
 	public Collection<Recurso> getRecursos() {
-		return recursoService.getRecursos();
+		String psaRecursosURL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos";
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Recurso[]> response = restTemplate.getForEntity(psaRecursosURL, Recurso[].class);
+		return recursoService.getRecursos(response);
 	}
 
 	@GetMapping("/recursos/{legajo}")
@@ -149,7 +153,6 @@ public class ModuloRecursosApp {
 		return ResponseEntity.ok().build();
 	}
 
-
 	@PutMapping("/recursos/parte_de_horas/{estado}")
 	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
@@ -166,14 +169,11 @@ public class ModuloRecursosApp {
 		return ResponseEntity.ok().build();
 	}
 
-
-
 	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
 	@ApiOperation(value = "Eliminar un parte de horas")
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
 		parteDeHorasService.deleteById(parteDeHorasID);
 	}
-
 
 	@Bean
 	public Docket apiDocket() {

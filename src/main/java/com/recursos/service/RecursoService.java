@@ -3,9 +3,12 @@ package com.recursos.service;
 import com.recursos.model.Recurso;
 import com.recursos.repository.RecursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -18,7 +21,20 @@ public class RecursoService {
         return recursoRepository.save(recurso);
     }
 
-    public Collection<Recurso> getRecursos() {
+    public Collection<Recurso> getRecursos(ResponseEntity<Recurso[]> response) {
+        List<Recurso> psaRecursos = null;
+        if (response.hasBody()) {
+            psaRecursos = List.of(Objects.requireNonNull(response.getBody()));
+        }
+
+        if (psaRecursos != null) {
+            for (Recurso recurso: psaRecursos){
+                if (!recursoRepository.existsById(recurso.getLegajo())){
+                    recursoRepository.save(recurso);
+                }
+            }
+        }
+
         return recursoRepository.findAll();
     }
 

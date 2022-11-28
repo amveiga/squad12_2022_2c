@@ -1,5 +1,7 @@
 package com.recursos.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +10,10 @@ public class Recurso {
     @Id
     private Long legajo;
 
+    @JsonProperty("Nombre")
     private String nombre;
 
+    @JsonProperty("Apellido")
     private String apellido;
 
     public Recurso(){
