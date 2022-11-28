@@ -23,13 +23,13 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
     public void setup() {
         System.out.println("Before any test execution");
     }
-    @Given("^hay un recurso de nombre \"([^\"]*)\", apellido \"([^\"]*)\" y legajo (\\d+)$")
+    @Given("^un recurso de nombre \"([^\"]*)\", apellido \"([^\"]*)\" y legajo (\\d+)$")
     public void hay_un_recurso_de_nombre_apellido_y_legajo(String arg1, String arg2, Long arg3) {
         // Write code here that turns the phrase above into concrete actions
         recurso = crearRecurso(arg3, arg1, arg2);
     }
 
-    @When("^cuando lo busco por legajo (\\d+)$")
+    @When("^lo busco por legajo (\\d+)$")
     public void cuando_lo_busco_por_legajo(Long arg1) {
         // Write code here that turns the phrase above into concrete actions
         recurso_buscado = getRecursoLegajo(arg1);
