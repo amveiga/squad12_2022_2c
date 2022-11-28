@@ -26,8 +26,7 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
     private Optional<Collection<Recurso>> lista_nombre_apellido;
     private Optional<Collection<Recurso>> lista_nombre;
     private Optional<Collection<Recurso>> lista_apellido;
-
-
+    private LegajoNoEncontradoException lne;
     @Before
     public void setup() {
         System.out.println("Before any test execution");
@@ -39,7 +38,11 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^lo busco por legajo (\\d+)$")
     public void cuando_lo_busco_por_legajo(Long legajo) {
-        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+        try {
+            recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+        } catch (LegajoNoEncontradoException e) {
+            lne = e;
+        }
     }
 
     @Then("^se retorna ese recurso$")
@@ -101,8 +104,12 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @Then("^se elimina el recurso (\\d+)$")
     public void seEliminaElRecurso(Long legajo) {
-        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
-        assertEquals(false, recurso_buscado.isPresent());
+        try {
+            recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+        } catch (LegajoNoEncontradoException e) {
+            lne = e;
+        }
+        assertNotNull(lne);
     }
 
     @And("^no se elimina el recurso (\\d+)$")
@@ -110,9 +117,8 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
         recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
         assertEquals(true, recurso_buscado.isPresent());
     }
-
-    @After
-    public void tearDown() {
-        System.out.println("After all test execution");
+    @Then("^no se encuentra el recurso$")
+    public void noSeEncuentraElRecurso() {
+        assertNotNull(lne);
     }
 }

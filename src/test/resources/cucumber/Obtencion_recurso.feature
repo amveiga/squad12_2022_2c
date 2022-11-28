@@ -22,3 +22,8 @@ Feature: Obtencion de recurso
     And un recurso de nombre "Pedro", apellido "Gallino" y legajo 107588
     When busco por nombre "Pedro" y apellido "Gallino"
     Then se retorna un listado con los recursos de nombre "Pedro" y apellido "Gallino"
+
+  Scenario: Obtencion de recurso por legajo fallida
+    Given un recurso de nombre "Pedro", apellido "Gallino" y legajo 107588
+    When lo busco por legajo 107589
+    Then no se encuentra el recurso
