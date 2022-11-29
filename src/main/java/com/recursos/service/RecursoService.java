@@ -46,6 +46,7 @@ public class RecursoService {
         } else return recurso;
     }
 
+    public boolean existsById(Long legajo) { return recursoRepository.existsById(legajo); }
     public void save(Recurso recurso) {
         recursoRepository.save(recurso);
     }

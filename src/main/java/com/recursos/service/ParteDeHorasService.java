@@ -5,7 +5,9 @@ import com.recursos.exceptions.EstadoInvalidoException;
 import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
+import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.ParteDeHorasRepository;
+import org.h2.store.FileLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,14 +21,7 @@ public class ParteDeHorasService {
     private ParteDeHorasRepository parteDeHorasRepository;
 
 
-    public Date calcularSemanaAnterior() {
-        Date todayDate = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(todayDate);
-        int i = c.get(Calendar.DAY_OF_WEEK) - c.getFirstDayOfWeek();
-        c.add(Calendar.DATE, -i - 7);
-        return (c.getTime());
-    }
+
 
     public void verificarSiYaEstaAprobado(String estado) {
         if ( estado.equalsIgnoreCase("APROBADO") ) {
@@ -35,30 +30,10 @@ public class ParteDeHorasService {
     }
 
 
-    public void verificarEntradaEstado(String estadoNuevo) {
-        if ((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"))) {
-            return;
-        } else {
-            throw new EstadoInvalidoException("Estado invalido");
-        }
-    }
 
-    public void verificarCantidadDeHorasTrabajadas (int cantidadDeHorasTrabajadas) {
-        if (cantidadDeHorasTrabajadas <= 0) {
-            throw new CargaInvalidaException("No se pueden cargar 0 o menos horas de trabajo");
-        }
-    }
-
-
-    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
-        verificarCantidadDeHorasTrabajadas (parteDeHoras.getCantidadDeHorasTrabajadas());
-        Date aWeekAgo = calcularSemanaAnterior();
-
-        if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
-             throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
-        }
-
-        return Optional.of(parteDeHorasRepository.save(parteDeHoras));
+    public ParteDeHoras createParteDeHoras (Long legajo) {
+        ParteDeHoras parteDeHoras = new ParteDeHoras(legajo);
+        return parteDeHorasRepository.save(parteDeHoras);
     }
 
     public Collection<ParteDeHoras> getParteDeHoras() { return parteDeHorasRepository.findAll(); }

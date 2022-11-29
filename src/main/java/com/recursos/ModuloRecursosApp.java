@@ -3,8 +3,10 @@ package com.recursos;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
+import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
+import com.recursos.service.TareaDelParteDeHorasService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -38,6 +40,9 @@ public class ModuloRecursosApp {
 	@Autowired
 	private ParteDeHorasService parteDeHorasService;
 
+	@Autowired
+	private TareaDelParteDeHorasService tareasDelParteDeHorasService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ModuloRecursosApp.class, args);
 	}
@@ -69,21 +74,21 @@ public class ModuloRecursosApp {
 	}
 
 	// TODO: verificar que esta es la manera correcta de mandar los parámetros
-	@GetMapping("/recursos/{nombre}/{apellido}")
+	@GetMapping("/recursos/full_name/{apellido}/{nombre}")
 	@ApiOperation(value = "Obtener un recurso por nombre y apellido")
 	public ResponseEntity<Collection<Recurso>> getRecursoByName(@PathVariable String nombre, @PathVariable String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByNameAndFamilyName(nombre, apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
 
-	@GetMapping("/recursos/{nombre}")
+	@GetMapping("/recursos/name/{nombre}")
 	@ApiOperation(value = "Obtener un recurso por nombre")
 	public ResponseEntity<Collection<Recurso>> getRecursoByFirstName(@PathVariable String nombre) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFirstName(nombre);
 		return ResponseEntity.of(recursosOptional);
 	}
 
-	@GetMapping("/recursos/{apellido}")
+	@GetMapping("/recursos/family_name/{apellido}")
 	@ApiOperation(value = "Obtener un recurso por apellido")
 	public ResponseEntity<Collection<Recurso>> getRecursoByFamilyName(@PathVariable String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFamilyName(apellido);
@@ -106,17 +111,19 @@ public class ModuloRecursosApp {
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n" +
 					"Los tipos de tareas posibles son: TAREA_PROYECTO, INCIDENCIA, ADMINISTRATIVA_REUNION, ADMINISTRATIVA_CAPACITACION, ADMINISTRATIVA_CURSO, GUARDIA, LICENCIA")
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<ParteDeHoras> createParte(@RequestBody ParteDeHoras parteDeHoras, @PathVariable Long legajo) {
-		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
-//		if(optionalRecurso.isEmpty()) {
-//			throw new LegajoNoEncontradoException("No se encontró el legajo");
-//		}
-		parteDeHorasService.verificarEntradaEstado(parteDeHoras.getEstado());
+	public ResponseEntity<ParteDeHoras> createParte(@RequestBody TareaDelParteDeHora[] tareasDelParteDeHoras, @PathVariable Long legajo) {
+		if(!recursoService.existsById(legajo) ||
+			!tareasDelParteDeHorasService.validateTasks(tareasDelParteDeHoras)) {
+			throw new LegajoNoEncontradoException("Error en la carga de datos");
+		}
 
-		Optional<ParteDeHoras> optionalParteDeHoras = parteDeHorasService.createParteDeHoras(parteDeHoras);
-		return ResponseEntity.of(optionalParteDeHoras);
+		ParteDeHoras parteDeHoras = parteDeHorasService.createParteDeHoras(legajo);
+
+		tareasDelParteDeHorasService.saveAll(tareasDelParteDeHoras, parteDeHoras.getParteDeHorasID());
+
+		return ResponseEntity.ok().build();
 	}
-
+/*
 	@GetMapping("/recursos/parte_de_horas")
 	@ApiOperation(value = "Obtener todos los partes de horas")
 	public Collection<ParteDeHoras> getPartesDeHoras() { return parteDeHorasService.getParteDeHoras(); }
@@ -167,7 +174,7 @@ public class ModuloRecursosApp {
 		parteDeHorasService.save(parteDeHoras);
 		return ResponseEntity.ok().build();
 	}
-
+*/
 	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
 	@ApiOperation(value = "Eliminar un parte de horas")
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
