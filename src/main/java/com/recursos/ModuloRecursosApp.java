@@ -36,7 +36,6 @@ import java.util.Optional;
 public class ModuloRecursosApp {
 
 
-	// TODO: aca declaramos los servicios
 	@Autowired
 	private RecursoService recursoService;
 
@@ -50,7 +49,6 @@ public class ModuloRecursosApp {
 		SpringApplication.run(ModuloRecursosApp.class, args);
 	}
 
-	// TODO: aca van los endpoints
 
 	// ******   RECURSOS  ******
 	@PostMapping("/recursos")
@@ -76,7 +74,6 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(recursoOptional);
 	}
 
-	// TODO: verificar que esta es la manera correcta de mandar los parámetros
 	@GetMapping("/recursos/full_name/{apellido}/{nombre}")
 	@ApiOperation(value = "Obtener un recurso por nombre y apellido")
 	public ResponseEntity<Collection<Recurso>> getRecursoByName(@PathVariable String nombre, @PathVariable String apellido) {
@@ -145,13 +142,29 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
+	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
+	@ApiOperation(value = "Eliminar un parte de horas")
+	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
+		parteDeHorasService.deleteById(parteDeHorasID);
+	}
+
+
+
+	// ******   TAREAS  ******
+
+/*	@GetMapping("/recursos/parte_de_horas")
+	@ApiOperation(value = "Obtener TODOS los partes de horas")
+	public Collection<ParteDeHoras> getPartesDeHoras() {
+		return parteDeHorasService.getParteDeHoras();
+	}*/
+
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
 	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
 		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId) ||
-			!tareasDelParteDeHorasService.validarCantidadDeHorasTrabajadas(cantidadDeHorasNuevas) ) {
+				!tareasDelParteDeHorasService.validarCantidadDeHorasTrabajadas(cantidadDeHorasNuevas) ) {
 			throw new TareaNoEncontradaException("Error en la carga de la tarea");
 		}
 		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
@@ -181,11 +194,13 @@ public class ModuloRecursosApp {
 		return ResponseEntity.ok().build();
 	}
 
-	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
-	@ApiOperation(value = "Eliminar un parte de horas")
-	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
-		parteDeHorasService.deleteById(parteDeHorasID);
+
+	@DeleteMapping("/recursos/tareaDelParteDeHoraId/{tareaDelParteDeHoraId}")
+	@ApiOperation(value = "Eliminar una tarea")
+	public void deleteTarea(@PathVariable Long tareaDelParteDeHoraId) {
+		tareasDelParteDeHorasService.deleteById(tareaDelParteDeHoraId);
 	}
+
 
 	@Bean
 	public Docket apiDocket() {
