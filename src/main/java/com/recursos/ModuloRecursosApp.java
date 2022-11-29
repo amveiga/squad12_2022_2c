@@ -2,6 +2,7 @@ package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
+import com.recursos.exceptions.TareaNoEncontradaException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -60,7 +61,7 @@ public class ModuloRecursosApp {
 	}
 
 	@GetMapping("/recursos")
-	@ApiOperation(value = "Obtener todos los recursos")
+	@ApiOperation(value = "Obtener TODOS los recursos")
 	public Collection<Recurso> getRecursos() {
 		String psaRecursosURL = "https://anypoint.mulesoft.com/mocking/api/v1/sources/exchange/assets/754f50e8-20d8-4223-bbdc-56d50131d0ae/recursos-psa/1.0.0/m/api/recursos";
 		RestTemplate restTemplate = new RestTemplate();
@@ -107,7 +108,7 @@ public class ModuloRecursosApp {
 	// ******   PARTE DE HORAS  ******
 
 	@PostMapping("/recursos/{legajo}/parte_de_horas")
-	@ApiOperation(value = "Crear un parte de horas nuevo para un recurso por legajo",
+	@ApiOperation(value = "Crear un parte de horas nuevo para un legajo",
 			notes = "No se puede cargar un parte de horas anterior a la semana actual\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0\n" +
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n" +
@@ -127,13 +128,13 @@ public class ModuloRecursosApp {
 	}
 
 	@GetMapping("/recursos/parte_de_horas")
-	@ApiOperation(value = "Obtener todos los partes de horas")
+	@ApiOperation(value = "Obtener TODOS los partes de horas")
 	public Collection<ParteDeHoras> getPartesDeHoras() {
 		return parteDeHorasService.getParteDeHoras();
 	}
 
 	@GetMapping("/recursos/{legajo}/parte_de_horas")
-	@ApiOperation(value = "Obtener los partes de horas de un recurso por legajo")
+	@ApiOperation(value = "Obtener los partes de horas de un legajo")
 	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
 //		if(optionalRecurso.isEmpty()) {
@@ -145,14 +146,13 @@ public class ModuloRecursosApp {
 	}
 
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}")
-	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de un parte de horas de un recurso por parte de horas ID",
+	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
 	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
-
 		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId) ||
 			!tareasDelParteDeHorasService.validarCantidadDeHorasTrabajadas(cantidadDeHorasNuevas) ) {
-			throw new LegajoNoEncontradoException("Error en la carga de la tarea");
+			throw new TareaNoEncontradaException("Error en la carga de la tarea");
 		}
 		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
 		if (tareasDelParteDeHorasService.verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
@@ -162,23 +162,25 @@ public class ModuloRecursosApp {
 		tareasDelParteDeHorasService.save(tareaDelParteDeHoras);
 		return ResponseEntity.ok().build();
 	}
-/*
-	@PutMapping("/recursos/parte_de_horas/{estado}")
-	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID",
+
+	@PutMapping("/recursos/{tareaDelParteDeHoraId}/{estado}")
+	@ApiOperation(value = "Modificar el estado de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n")
-	public ResponseEntity<ParteDeHoras> updateEstadoDeParteDeHoras(@RequestBody Long parteDeHorasID, @PathVariable String estado) {
-
-		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
-		parteDeHorasService.verificarSiYaEstaAprobado(parteDeHoras.getEstado());
-		parteDeHorasService.verificarEntradaEstado(estado);
-
-		parteDeHoras.setEstado(estado);
-
-		parteDeHorasService.save(parteDeHoras);
+	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody String estadoNuevo) {
+		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId) ||
+				!tareasDelParteDeHorasService.verificarEntradaEstado(estadoNuevo) ) {
+			throw new TareaNoEncontradaException("Error en la carga de la tarea");
+		}
+		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
+		if (tareasDelParteDeHorasService.verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
+			throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+		}
+		tareaDelParteDeHoras.setEstado(estadoNuevo);
+		tareasDelParteDeHorasService.save(tareaDelParteDeHoras);
 		return ResponseEntity.ok().build();
 	}
-*/
+
 	@DeleteMapping("/recursos/parte_de_horas/{parteDeHorasID}")
 	@ApiOperation(value = "Eliminar un parte de horas")
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
