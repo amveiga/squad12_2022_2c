@@ -1,5 +1,6 @@
 package com.recursos;
 
+import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
