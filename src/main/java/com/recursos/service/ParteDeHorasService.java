@@ -50,15 +50,9 @@ public class ParteDeHorasService {
     }
 
 
-    public Optional<ParteDeHoras> createParteDeHoras (ParteDeHoras parteDeHoras) {
-        verificarCantidadDeHorasTrabajadas (parteDeHoras.getCantidadDeHorasTrabajadas());
-        Date aWeekAgo = calcularSemanaAnterior();
-
-        if (parteDeHoras.getFechaDeLaTareaACargar().before(aWeekAgo)){
-             throw new CargaInvalidaException("No se pueden cargar horas de trabajo previas a 1 semana");
-        }
-
-        return Optional.of(parteDeHorasRepository.save(parteDeHoras));
+    public ParteDeHoras createParteDeHoras (Long legajo) {
+        ParteDeHoras parteDeHoras = new ParteDeHoras(legajo);
+        return parteDeHorasRepository.save(parteDeHoras);
     }
 
     public Collection<ParteDeHoras> getParteDeHoras() { return parteDeHorasRepository.findAll(); }
