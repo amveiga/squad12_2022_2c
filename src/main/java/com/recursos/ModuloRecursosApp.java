@@ -152,11 +152,11 @@ public class ModuloRecursosApp {
 
 	// ******   TAREAS  ******
 
-/*	@GetMapping("/recursos/parte_de_horas")
-	@ApiOperation(value = "Obtener TODOS los partes de horas")
-	public Collection<ParteDeHoras> getPartesDeHoras() {
-		return parteDeHorasService.getParteDeHoras();
-	}*/
+	@GetMapping("/recursos/parte_de_horas/{parteDeHorasId}")
+	@ApiOperation(value = "Obtener TODAS las tareas de un parte de horas")
+	public Collection<TareaDelParteDeHora> getTareasByParteDeHoras(@PathVariable Long parteDeHorasId) {
+		return tareasDelParteDeHorasService.getTareasByParteDeHoraId(parteDeHorasId);
+	}
 
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
@@ -194,13 +194,11 @@ public class ModuloRecursosApp {
 		return ResponseEntity.ok().build();
 	}
 
-
 	@DeleteMapping("/recursos/tareaDelParteDeHoraId/{tareaDelParteDeHoraId}")
 	@ApiOperation(value = "Eliminar una tarea")
 	public void deleteTarea(@PathVariable Long tareaDelParteDeHoraId) {
 		tareasDelParteDeHorasService.deleteById(tareaDelParteDeHoraId);
 	}
-
 
 	@Bean
 	public Docket apiDocket() {

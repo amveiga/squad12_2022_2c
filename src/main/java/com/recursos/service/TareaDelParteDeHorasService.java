@@ -1,5 +1,7 @@
 package com.recursos.service;
 
+import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
+import com.recursos.model.ParteDeHoras;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,5 +82,9 @@ public class TareaDelParteDeHorasService {
 
     public TareaDelParteDeHora getTareaByID(Long tareaDelParteDeHoraId) {
         return tareaDelParteDeHorasRepository.findByTareaDelParteDeHoraId(tareaDelParteDeHoraId);
+    }
+
+    public Collection<TareaDelParteDeHora> getTareasByParteDeHoraId(Long parteDeHorasId) {
+        return tareaDelParteDeHorasRepository.findByParteDeHoraId(parteDeHorasId);
     }
 }
