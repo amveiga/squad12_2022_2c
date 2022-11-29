@@ -1,5 +1,6 @@
 package com.recursos.service;
 
+import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.Recurso;
 import com.recursos.repository.RecursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,10 @@ public class RecursoService {
     }
 
     public Optional<Recurso> findById(Long legajo) {
-        return recursoRepository.findById(legajo);
+        Optional<Recurso> recurso = recursoRepository.findById(legajo);
+        if (recurso.isEmpty()) {
+            throw new LegajoNoEncontradoException("No se encontró el legajo");
+        } else return recurso;
     }
 
     public boolean existsById(Long legajo) { return recursoRepository.existsById(legajo); }
@@ -54,21 +58,24 @@ public class RecursoService {
     public Optional<Collection<Recurso>> findByNameAndFamilyName(String nombre, String apellido) {
         Collection<Recurso> recursos = recursoRepository.findRecursosByApellidoAndNombre(apellido,nombre);
         if (recursos.isEmpty()) {
-            return Optional.empty();
+            //return Optional.empty();
+            throw new LegajoNoEncontradoException("No se encontró el legajo");
         } else return Optional.of(recursos);
     }
 
     public Optional<Collection<Recurso>> findByFirstName(String nombre) {
         Collection<Recurso> recursos = recursoRepository.findRecursosByNombre(nombre);
         if (recursos.isEmpty()) {
-            return Optional.empty();
+            //return Optional.empty();
+            throw new LegajoNoEncontradoException("No se encontró el legajo");
         } else return Optional.of(recursos);
     }
 
     public Optional<Collection<Recurso>> findByFamilyName(String apellido) {
         Collection<Recurso> recursos = recursoRepository.findRecursosByApellido(apellido);
         if (recursos.isEmpty()) {
-            return Optional.empty();
+            //return Optional.empty();
+            throw new LegajoNoEncontradoException("No se encontró el legajo");
         } else return Optional.of(recursos);
     }
 }

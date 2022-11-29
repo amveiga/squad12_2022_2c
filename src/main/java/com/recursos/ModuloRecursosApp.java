@@ -1,6 +1,5 @@
 package com.recursos;
 
-import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -134,10 +133,10 @@ public class ModuloRecursosApp {
 	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
 
-		if(optionalRecurso.isEmpty()) {
-			throw new LegajoNoEncontradoException("No se encontró el legajo");
-			//return ResponseEntity.notFound().build();
-		}
+//		if(optionalRecurso.isEmpty()) {
+//			throw new LegajoNoEncontradoException("No se encontró el legajo");
+//			//return ResponseEntity.notFound().build();
+//		}
 
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
 		return ResponseEntity.of(optionalParteDeHoras);

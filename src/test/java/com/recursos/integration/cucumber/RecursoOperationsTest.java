@@ -23,11 +23,8 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     private Recurso recurso;
     private Optional<Recurso> recurso_buscado;
-    private Optional<Collection<Recurso>> lista_nombre_apellido;
-    private Optional<Collection<Recurso>> lista_nombre;
-    private Optional<Collection<Recurso>> lista_apellido;
-
-
+    private Optional<Collection<Recurso>> lista_nombre_apellido, lista_nombre, lista_apellido;
+    private Exception exception;
     @Before
     public void setup() {
         System.out.println("Before any test execution");
@@ -39,7 +36,11 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^lo busco por legajo (\\d+)$")
     public void cuando_lo_busco_por_legajo(Long legajo) {
-        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+        try {
+            recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+        } catch (LegajoNoEncontradoException e) {
+            exception = e;
+        }
     }
 
     @Then("^se retorna ese recurso$")
@@ -51,7 +52,11 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^busco por nombre \"([^\"]*)\" y apellido \"([^\"]*)\"$")
     public void loBuscoPorNombreYApellido(String nombre, String apellido) {
-        lista_nombre_apellido = getRecursoNombreApellido(nombre, apellido);
+        try {
+            lista_nombre_apellido = getRecursoNombreApellido(nombre, apellido);
+        } catch (LegajoNoEncontradoException e) {
+            exception = e;
+        }
     }
     @Then("^se retorna un listado con los recursos de nombre \"([^\"]*)\" y apellido \"([^\"]*)\"$")
     public void seRetornaUnListadoConLosRecursosDeNombreYApellido(String nombre, String apellido) {
@@ -66,7 +71,11 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^busco por nombre \"([^\"]*)\"$")
     public void buscoPorNombre(String nombre)  {
-        lista_nombre = getRecursoNombre(nombre);
+        try {
+            lista_nombre = getRecursoNombre(nombre);
+        } catch (LegajoNoEncontradoException e) {
+            exception = e;
+        }
     }
 
     @Then("^se retorna un listado con los recursos de nombre \"([^\"]*)\"$")
@@ -81,7 +90,11 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^busco por apellido \"([^\"]*)\"$")
     public void buscoPorApellido(String apellido) {
-        lista_apellido = getRecursoApellido(apellido);
+        try {
+            lista_apellido = getRecursoApellido(apellido);
+        } catch (LegajoNoEncontradoException e) {
+            exception = e;
+        }
     }
 
     @Then("^se retorna un listado con los recursos de apellido \"([^\"]*)\"$")
@@ -96,23 +109,26 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
 
     @When("^elimino por legajo (\\d+)$")
     public void loEliminoPorLegajo(Long legajo) {
-        DeleteRecursoLegajo(legajo);
+        try {
+            DeleteRecursoLegajo(legajo);
+        } catch (Exception e) {
+            exception = e;
+        }
     }
 
     @Then("^se elimina el recurso (\\d+)$")
     public void seEliminaElRecurso(Long legajo) {
-        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
-        assertEquals(false, recurso_buscado.isPresent());
+        cuando_lo_busco_por_legajo(legajo);
+        assertNotNull(exception);
+    }
+    @Then("^no se encuentra el recurso$")
+    public void noSeEncuentraElRecurso() {
+        assertNotNull(exception);
     }
 
-    @And("^no se elimina el recurso (\\d+)$")
-    public void noSeEliminaElRecurso(Long legajo) {
-        recurso_buscado = getRecursoLegajo(Long.valueOf(legajo));
+    @Then("^no se elimina el recurso (\\d+)$")
+    public void noSeEliminaElRecurso(long legajo) {
+        cuando_lo_busco_por_legajo(legajo);
         assertEquals(true, recurso_buscado.isPresent());
-    }
-
-    @After
-    public void tearDown() {
-        System.out.println("After all test execution");
     }
 }

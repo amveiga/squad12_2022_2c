@@ -18,6 +18,11 @@ public class Recurso {
 
     public Recurso(){
     }
+    public Recurso(Long legajo, String nombre, String apellido) {
+        this.legajo = legajo;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
 
     public Long getLegajo() {
         return legajo;
