@@ -4,6 +4,7 @@ import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
+import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
 import com.recursos.service.TareaDelParteDeHorasService;
