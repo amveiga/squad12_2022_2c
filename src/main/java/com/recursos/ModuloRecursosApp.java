@@ -1,6 +1,7 @@
 package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
+import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -124,42 +125,44 @@ public class ModuloRecursosApp {
 
 		return ResponseEntity.ok().build();
 	}
-/*
+
 	@GetMapping("/recursos/parte_de_horas")
 	@ApiOperation(value = "Obtener todos los partes de horas")
-	public Collection<ParteDeHoras> getPartesDeHoras() { return parteDeHorasService.getParteDeHoras(); }
+	public Collection<ParteDeHoras> getPartesDeHoras() {
+		return parteDeHorasService.getParteDeHoras();
+	}
 
 	@GetMapping("/recursos/{legajo}/parte_de_horas")
 	@ApiOperation(value = "Obtener los partes de horas de un recurso por legajo")
 	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
-
 //		if(optionalRecurso.isEmpty()) {
 //			throw new LegajoNoEncontradoException("No se encontró el legajo");
 //			//return ResponseEntity.notFound().build();
 //		}
-
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
 
-	@PutMapping("/parte_de_horas/{parteDeHorasID}")
+	@PutMapping("/recursos/{tareaDelParteDeHoraId}")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de un parte de horas de un recurso por parte de horas ID",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
-	public ResponseEntity<ParteDeHoras> updatecantidadDeHorasTrabajadasDeParteDeHoras(@PathVariable Long parteDeHorasID, @RequestBody int cantidadDeHorasTrabajadas) {
+	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
 
-		ParteDeHoras parteDeHoras = parteDeHorasService.getPartesByID(parteDeHorasID);
-		parteDeHorasService.verificarSiYaEstaAprobado(parteDeHoras.getEstado());
-
-		parteDeHorasService.verificarCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
-
-		parteDeHoras.setCantidadDeHorasTrabajadas(cantidadDeHorasTrabajadas);
-
-		parteDeHorasService.save(parteDeHoras);
+		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId) ||
+			!tareasDelParteDeHorasService.validarCantidadDeHorasTrabajadas(cantidadDeHorasNuevas) ) {
+			throw new LegajoNoEncontradoException("Error en la carga de la tarea");
+		}
+		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
+		if (tareasDelParteDeHorasService.verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
+			throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+		}
+		tareaDelParteDeHoras.setCantidadDeHorasTrabajadas(cantidadDeHorasNuevas);
+		tareasDelParteDeHorasService.save(tareaDelParteDeHoras);
 		return ResponseEntity.ok().build();
 	}
-
+/*
 	@PutMapping("/recursos/parte_de_horas/{estado}")
 	@ApiOperation(value = "Modificar el estado de un parte de horas de un recurso por parte de horas ID",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +

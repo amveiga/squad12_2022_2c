@@ -1,7 +1,5 @@
 package com.recursos.service;
 
-import com.recursos.exceptions.CargaInvalidaException;
-import com.recursos.exceptions.EstadoInvalidoException;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TareaDelParteDeHorasService {
@@ -48,6 +47,14 @@ public class TareaDelParteDeHorasService {
         return (estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"));
     }
 
+    public boolean verificarSiYaEstaAprobado(String estado) {
+        if ( estado.equalsIgnoreCase("APROBADO") ) {
+            return true;
+            //throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+        }
+        return false;
+    }
+
     public boolean validateTasks(TareaDelParteDeHora[] tareasDelParteDeHoras) {
         Date aWeekAgo = calcularSemanaAnterior();
         for ( TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHoras) {
@@ -65,5 +72,13 @@ public class TareaDelParteDeHorasService {
             tareaDelParteDeHora.setParteDeHoraId(parteDeHorasID);
             tareaDelParteDeHorasRepository.save(tareaDelParteDeHora);
         }
+    }
+
+    public boolean existsById(Long tareaDelParteDeHoraId) {
+        return tareaDelParteDeHorasRepository.existsById(tareaDelParteDeHoraId);
+    }
+
+    public TareaDelParteDeHora getTareaByID(Long tareaDelParteDeHoraId) {
+        return tareaDelParteDeHorasRepository.findByTareaDelParteDeHoraId(tareaDelParteDeHoraId);
     }
 }

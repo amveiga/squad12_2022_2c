@@ -21,16 +21,6 @@ public class ParteDeHorasService {
     private ParteDeHorasRepository parteDeHorasRepository;
 
 
-
-
-    public void verificarSiYaEstaAprobado(String estado) {
-        if ( estado.equalsIgnoreCase("APROBADO") ) {
-            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
-        }
-    }
-
-
-
     public ParteDeHoras createParteDeHoras (Long legajo) {
         ParteDeHoras parteDeHoras = new ParteDeHoras(legajo);
         return parteDeHorasRepository.save(parteDeHoras);
