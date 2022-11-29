@@ -1,17 +1,13 @@
 package com.recursos.integration.cucumber;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
-import com.recursos.exceptions.CargaInvalidaException;
 import com.recursos.model.Recurso;
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-import java.io.ObjectInputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Optional;
@@ -24,6 +20,8 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
     private Recurso recurso;
     private Optional<Recurso> recurso_buscado;
     private Optional<Collection<Recurso>> lista_nombre_apellido, lista_nombre, lista_apellido;
+
+    private Collection<Recurso> lista_recursos;
     private Exception exception;
     @Before
     public void setup() {
@@ -130,5 +128,30 @@ public class RecursoOperationsTest extends RecursoIntegrationServiceTest {
     public void noSeEliminaElRecurso(long legajo) {
         cuando_lo_busco_por_legajo(legajo);
         assertEquals(true, recurso_buscado.isPresent());
+    }
+
+    @When("^busco todos los recursos$")
+    public void buscoTodosLosRecursos() {
+        lista_recursos = getRecursos();
+    }
+
+    @Then("^se retorna un listado con todos los recursos$")
+    public void seRetornaUnListadoConTodosLosRecursos() {
+        //todo este test es malisimo, pensar una forma de testearlo
+        Iterator<Recurso> it = lista_recursos.iterator();
+        int contador = 0;
+        Long legajo = 107587L;
+        while(it.hasNext()) {
+            Recurso recurso_listado = it.next();
+            assertEquals(legajo, recurso_listado.getLegajo());
+            legajo++;
+            contador++;
+        }
+        assertEquals(contador, lista_recursos.size());
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("After all test execution");
     }
 }

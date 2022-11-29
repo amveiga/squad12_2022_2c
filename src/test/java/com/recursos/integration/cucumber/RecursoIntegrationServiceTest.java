@@ -4,6 +4,8 @@ import com.recursos.ModuloRecursosApp;
 import com.recursos.model.Recurso;
 import com.recursos.service.RecursoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -24,6 +26,11 @@ public class RecursoIntegrationServiceTest {
 
     Optional<Recurso> getRecursoLegajo(Long legajo) {
         return recursoService.findById(legajo);
+    }
+
+    Collection<Recurso> getRecursos() {
+        ResponseEntity<Recurso[]> response = new ResponseEntity<>(HttpStatus.OK);
+        return recursoService.getRecursos(response);
     }
 
     Optional<Collection<Recurso>> getRecursoNombreApellido(String nombre, String apellido) {

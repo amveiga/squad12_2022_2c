@@ -5,6 +5,13 @@ Feature: Obtencion de recurso
     When lo busco por legajo 107587
     Then se retorna ese recurso
 
+  Scenario: Obtencion de listado de recursos exitosa
+    Given un recurso de nombre "Pedro", apellido "Gallino" y legajo 107587
+    And un recurso de nombre "camila", apellido "Sebellin" y legajo 107588
+    And un recurso de nombre "Pedro", apellido "Gayino" y legajo 107589
+    When busco todos los recursos
+    Then se retorna un listado con todos los recursos
+
   Scenario: Obtencion de listado de recursos por nombre exitosa
     Given un recurso de nombre "Pedro", apellido "Gallino" y legajo 107587
     And un recurso de nombre "Pedro", apellido "Gayino" y legajo 107588
