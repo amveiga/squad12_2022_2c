@@ -18,11 +18,7 @@ public class RecursoIntegrationServiceTest {
     Recurso crearRecurso(Long legajo,
                          String nombre,
                          String apellido) {
-        Recurso recurso = new Recurso();
-        //TODO: tal vez sirva un constructor de recurso
-        recurso.setLegajo(legajo);
-        recurso.setNombre(nombre);
-        recurso.setApellido((apellido));
+        Recurso recurso = new Recurso(legajo, nombre, apellido);
         return recursoService.crearRecurso(recurso);
     }
 
