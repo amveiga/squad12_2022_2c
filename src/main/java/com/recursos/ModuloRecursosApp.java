@@ -135,10 +135,6 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Obtener los partes de horas de un legajo")
 	public ResponseEntity<Collection<ParteDeHoras>> getParteByLegajo(@PathVariable Long legajo) {
 		Optional<Recurso> optionalRecurso = recursoService.findById(legajo);
-//		if(optionalRecurso.isEmpty()) {
-//			throw new LegajoNoEncontradoException("No se encontró el legajo");
-//			//return ResponseEntity.notFound().build();
-//		}
 		Optional<Collection<ParteDeHoras>> optionalParteDeHoras =  parteDeHorasService.getPartesByLegajo(legajo);
 		return ResponseEntity.of(optionalParteDeHoras);
 	}
@@ -164,16 +160,7 @@ public class ModuloRecursosApp {
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
 	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
-		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId) ||
-				!tareasDelParteDeHorasService.validarCantidadDeHorasTrabajadas(cantidadDeHorasNuevas) ) {
-			throw new TareaNoEncontradaException("Error en la carga de la tarea");
-		}
-		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
-		if (tareasDelParteDeHorasService.verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
-			throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
-		}
-		tareaDelParteDeHoras.setCantidadDeHorasTrabajadas(cantidadDeHorasNuevas);
-		tareasDelParteDeHorasService.save(tareaDelParteDeHoras);
+		tareasDelParteDeHorasService.modificarCantHoras(tareaDelParteDeHoraId, cantidadDeHorasNuevas);
 		return ResponseEntity.ok().build();
 	}
 
@@ -182,19 +169,7 @@ public class ModuloRecursosApp {
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n")
 	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody String estado) {
-		if( !tareasDelParteDeHorasService.existsById(tareaDelParteDeHoraId)) {
-			throw new TareaNoEncontradaException("No existe la tarea del parte de horas ingresada");
-		}
-
-		if (!tareasDelParteDeHorasService.verificarEntradaEstado(estado) ) {
-			throw new TareaNoEncontradaException("Error en la carga de la tarea");
-		}
-		TareaDelParteDeHora tareaDelParteDeHoras = tareasDelParteDeHorasService.getTareaByID(tareaDelParteDeHoraId);
-		if (tareasDelParteDeHorasService.verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
-			throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
-		}
-		tareaDelParteDeHoras.setEstado(estado);
-		tareasDelParteDeHorasService.save(tareaDelParteDeHoras);
+		tareasDelParteDeHorasService.modificarEstado(tareaDelParteDeHoraId, estado);
 		return ResponseEntity.ok().build();
 	}
 

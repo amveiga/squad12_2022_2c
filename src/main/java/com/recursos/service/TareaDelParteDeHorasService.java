@@ -1,6 +1,8 @@
 package com.recursos.service;
 
+import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
 import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
+import com.recursos.exceptions.TareaNoEncontradaException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
@@ -86,5 +88,30 @@ public class TareaDelParteDeHorasService {
 
     public Collection<TareaDelParteDeHora> getTareasByParteDeHoraId(Long parteDeHorasId) {
         return tareaDelParteDeHorasRepository.findByParteDeHoraId(parteDeHorasId);
+    }
+    public void modificarCantHoras(Long tareaDelParteDeHoraId, int horasNuevas) {
+        if( !existsById(tareaDelParteDeHoraId) ||
+                !validarCantidadDeHorasTrabajadas(horasNuevas) ) {
+            throw new TareaNoEncontradaException("Error en la carga de la tarea");
+        }
+        TareaDelParteDeHora tareaDelParteDeHoras = getTareaByID(tareaDelParteDeHoraId);
+        if (verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
+            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+        }
+        tareaDelParteDeHoras.setCantidadDeHorasTrabajadas(horasNuevas);
+        save(tareaDelParteDeHoras);
+    }
+
+    public void modificarEstado(Long tareaDelParteDeHoraId, String estadoNuevo) {
+        if( !existsById(tareaDelParteDeHoraId) ||
+                !verificarEntradaEstado(estadoNuevo) ) {
+            throw new TareaNoEncontradaException("Error en la carga de la tarea");
+        }
+        TareaDelParteDeHora tareaDelParteDeHoras = getTareaByID(tareaDelParteDeHoraId);
+        if (verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
+            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+        }
+        tareaDelParteDeHoras.setEstado(estadoNuevo);
+        save(tareaDelParteDeHoras);
     }
 }

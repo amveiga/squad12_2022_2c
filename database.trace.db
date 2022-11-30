@@ -1,0 +1,32 @@
+2022-11-30 11:20:51 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "TAREA_DEL_PARTE_DE_HORA[*]"; se esperaba "TRUNCATE"
+Syntax error in SQL statement "TAREA_DEL_PARTE_DE_HORA[*]"; expected "TRUNCATE"; SQL statement:
+TAREA_DEL_PARTE_DE_HORA [42001-200]
+2022-11-30 11:21:34 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
+Table "RECURSO" not found; SQL statement:
+select count(*) as col_0_0_ from recurso recurso0_ where recurso0_.legajo=? [42102-200]
+2022-11-30 11:22:52 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "RECURSO[*]"; se esperaba "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"
+Syntax error in SQL statement "RECURSO[*]"; expected "ROLLBACK, REVOKE, RUNSCRIPT, RELEASE"; SQL statement:
+RECURSO [42001-200]
+2022-11-30 11:23:02 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "TAREA_DEL_PARTE_DE_HORA[*]"; se esperaba "TRUNCATE"
+Syntax error in SQL statement "TAREA_DEL_PARTE_DE_HORA[*]"; expected "TRUNCATE"; SQL statement:
+TAREA_DEL_PARTE_DE_HORA [42001-200]
+2022-11-30 11:23:39 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "TAREA_DEL_PARTE_DE_HORA[*]"; se esperaba "TRUNCATE"
+Syntax error in SQL statement "TAREA_DEL_PARTE_DE_HORA[*]"; expected "TRUNCATE"; SQL statement:
+TAREA_DEL_PARTE_DE_HORA [42001-200]
+2022-11-30 11:23:43 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "PARTE_DE_HORAS[*]"; se esperaba "PREPARE"
+Syntax error in SQL statement "PARTE_DE_HORAS[*]"; expected "PREPARE"; SQL statement:
+PARTE_DE_HORAS [42001-200]
+2022-11-30 11:24:28 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "PARTE_DE_HORAS[*]"; se esperaba "PREPARE"
+Syntax error in SQL statement "PARTE_DE_HORAS[*]"; expected "PREPARE"; SQL statement:
+PARTE_DE_HORAS [42001-200]
+2022-11-30 11:26:29 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "TAREA_DEL_PARTE_DE_HORA[*]"; se esperaba "TRUNCATE"
+Syntax error in SQL statement "TAREA_DEL_PARTE_DE_HORA[*]"; expected "TRUNCATE"; SQL statement:
+TAREA_DEL_PARTE_DE_HORA [42001-200]

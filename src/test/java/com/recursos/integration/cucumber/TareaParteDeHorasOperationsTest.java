@@ -22,18 +22,4 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
     public void setup() {
         System.out.println("Before any test execution");
     }
-
-    @Given("^una tarea con (\\d+) horas trabajadas$")
-    public void unaTareaConHorasTrabajadas(int arg0) {
-
-    }
-
-    @When("^modifico las horas trabajadas por (\\d+)$")
-    public void modificoLasHorasTrabajadasPor(int arg0) {
-        
-    }
-
-    @Then("^la tarea queda con (\\d+) horas trabajadas$")
-    public void laTareaQuedaConHorasTrabajadas(int arg0) {
-    }
 }
