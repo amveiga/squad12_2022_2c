@@ -51,6 +51,7 @@ public class TareaDelParteDeHora {
     // SETTERS
     public void setParteDeHoraId(Long parteDeHoraId) { this.parteDeHoraId = parteDeHoraId; }
     public void setTareaId(String tareaId) { this.tareaId = tareaId; }
+    public void setProyectoId(String proyectoId) { this.proyectoId = proyectoId; }
     public void setFechaDeLaTareaACargar(Date fechaDeTareaACargar) { this.fechaDeTareaACargar = fechaDeTareaACargar; }
     public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
     public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
