@@ -24,6 +24,7 @@ public class TareaDelParteDeHora {
 
     private Long parteDeHoraId;
 
+    private String proyectoId;
     private String tareaId;
 
     private Date fechaDeTareaACargar;
@@ -40,6 +41,8 @@ public class TareaDelParteDeHora {
     // GETTERS
     public Long getParteDeHoraId() { return parteDeHoraId; }
     public String getTareaId() { return tareaId; }
+    public String getProyectoId() { return proyectoId; }
+
     public Date getFechaDeLaTareaACargar() { return fechaDeTareaACargar; }
     public int getCantidadDeHorasTrabajadas() { return cantidadDeHorasTrabajadas; }
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }

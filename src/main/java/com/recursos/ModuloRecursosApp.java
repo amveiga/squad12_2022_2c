@@ -200,6 +200,22 @@ public class ModuloRecursosApp {
 		tareasDelParteDeHorasService.deleteById(tareaDelParteDeHoraId);
 	}
 
+
+	//   *******     REPORTES   ********
+
+	@GetMapping("/reportes/tareas/estados")
+	@ApiOperation(value = "obtener todas las tareas de un cierto estado")
+	public Collection<TareaDelParteDeHora> getTareasPorEstado(@RequestParam String estado) {
+		return tareasDelParteDeHorasService.obtenerTareasPorEstado(estado);
+	}
+
+	@GetMapping("/reportes/tareas/proyecto")
+	@ApiOperation(value = "obtener todas las tareas aprobadas de un cierto proyecto")
+	public Collection<TareaDelParteDeHora> getTareasPorProyecto(@RequestParam String proyectoId) {
+		return tareasDelParteDeHorasService.obtenerTareasPorProyectoId(proyectoId, "APROBADO");
+	}
+
+
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)

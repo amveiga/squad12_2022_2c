@@ -1,9 +1,7 @@
 package com.recursos.service;
 
 import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
-import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
 import com.recursos.exceptions.TareaNoEncontradaException;
-import com.recursos.model.ParteDeHoras;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ public class TareaDelParteDeHorasService {
     public void deleteById(Long tareaDelParteDeHoraId) {
         tareaDelParteDeHorasRepository.deleteById(tareaDelParteDeHoraId);
     }
-
 
     public Date calcularSemanaAnterior() {
         Date todayDate = new Date();
@@ -122,14 +119,11 @@ public class TareaDelParteDeHorasService {
         return horasTotales;
     }
 
-    public Collection<TareaDelParteDeHora> obtenerTareasPorEstado (TareaDelParteDeHora[] tareasDelParteDeHoras, String estado) {
-        Collection<TareaDelParteDeHora> tareasADevolver = null;
-        for (TareaDelParteDeHora tareaDelParteDeHora : tareasDelParteDeHoras) {
-            if (tareaDelParteDeHora.getEstado().equals(estado)) {
-                tareasADevolver.add(tareaDelParteDeHora);
-            }
-        }
-        return tareasADevolver;
+    public Collection<TareaDelParteDeHora> obtenerTareasPorEstado (String estado) {
+        return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByEstadoIgnoreCase(estado);
     }
 
+    public Collection<TareaDelParteDeHora> obtenerTareasPorProyectoId(String proyectoId, String estado) {
+        return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByProyectoIdAndEstado(proyectoId, estado);
+    }
 }

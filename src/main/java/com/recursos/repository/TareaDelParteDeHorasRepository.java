@@ -6,7 +6,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @RepositoryRestResource
 public interface TareaDelParteDeHorasRepository extends CrudRepository<TareaDelParteDeHora, Long> {
@@ -14,6 +13,10 @@ public interface TareaDelParteDeHorasRepository extends CrudRepository<TareaDelP
     TareaDelParteDeHora findByTareaDelParteDeHoraId(Long tareaDelParteDeHoraId);
 
     Collection<TareaDelParteDeHora> findByParteDeHoraId(Long parteDeHorasId);
+
+    Collection<TareaDelParteDeHora> findTareaDelParteDeHoraByEstadoIgnoreCase(String estado);
+
+    Collection<TareaDelParteDeHora> findTareaDelParteDeHoraByProyectoIdAndEstado(String proyectoId, String estado);
 
     @Override
     List<TareaDelParteDeHora> findAll();
