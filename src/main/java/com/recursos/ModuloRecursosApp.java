@@ -76,23 +76,23 @@ public class ModuloRecursosApp {
 		return ResponseEntity.of(recursoOptional);
 	}
 
-	@GetMapping("/recursos/full_name/{apellido}/{nombre}")
+	@GetMapping("/recursos/full_name")
 	@ApiOperation(value = "Obtener un recurso por nombre y apellido")
-	public ResponseEntity<Collection<Recurso>> getRecursoByName(@PathVariable String nombre, @PathVariable String apellido) {
+	public ResponseEntity<Collection<Recurso>> getRecursoByName(@RequestParam String nombre, @RequestParam String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByNameAndFamilyName(nombre, apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
 
-	@GetMapping("/recursos/name/{nombre}")
+	@GetMapping("/recursos/name")
 	@ApiOperation(value = "Obtener un recurso por nombre")
-	public ResponseEntity<Collection<Recurso>> getRecursoByFirstName(@PathVariable String nombre) {
+	public ResponseEntity<Collection<Recurso>> getRecursoByFirstName(@RequestParam String nombre) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFirstName(nombre);
 		return ResponseEntity.of(recursosOptional);
 	}
 
-	@GetMapping("/recursos/family_name/{apellido}")
+	@GetMapping("/recursos/family_name")
 	@ApiOperation(value = "Obtener un recurso por apellido")
-	public ResponseEntity<Collection<Recurso>> getRecursoByFamilyName(@PathVariable String apellido) {
+	public ResponseEntity<Collection<Recurso>> getRecursoByFamilyName(@RequestParam String apellido) {
 		Optional<Collection<Recurso>> recursosOptional = recursoService.findByFamilyName(apellido);
 		return ResponseEntity.of(recursosOptional);
 	}
