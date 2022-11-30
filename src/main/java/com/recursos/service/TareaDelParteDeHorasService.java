@@ -9,10 +9,7 @@ import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TareaDelParteDeHorasService {
@@ -113,5 +110,15 @@ public class TareaDelParteDeHorasService {
         }
         tareaDelParteDeHoras.setEstado(estadoNuevo);
         save(tareaDelParteDeHoras);
+    }
+
+    public int obtenerCantidadDeHorasTotalesDeUnaTarea (TareaDelParteDeHora[] tareasDelParteDeHoras, String tareaId) {
+        int horasTotales = 0;
+        for (TareaDelParteDeHora tareaDelParteDeHora : tareasDelParteDeHoras) {
+            if (tareaDelParteDeHora.getTareaId().equals(tareaId)) {
+                horasTotales += tareaDelParteDeHora.getCantidadDeHorasTrabajadas();
+            }
+        }
+        return horasTotales;
     }
 }
