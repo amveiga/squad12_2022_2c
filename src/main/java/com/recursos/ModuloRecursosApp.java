@@ -27,6 +27,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -154,6 +155,26 @@ public class ModuloRecursosApp {
 	public Collection<TareaDelParteDeHora> getTareasByParteDeHoras(@PathVariable Long parteDeHorasId) {
 		return tareasDelParteDeHorasService.getTareasByParteDeHoraId(parteDeHorasId);
 	}
+
+
+	@GetMapping("/recursos/{legajo}/tareas")
+	@ApiOperation(value = "Obtener todas las tareas de un legajo")
+	public Collection<TareaDelParteDeHora> getTareasByLegajo(@PathVariable Long legajo) {
+		Collection<TareaDelParteDeHora> tareasTotales = new ArrayList<>();
+		if (!recursoService.existsById(legajo)){
+			throw new LegajoNoEncontradoException("Legajo no encontrado");
+		}
+		Optional<Collection<ParteDeHoras>> partesDeHoras = parteDeHorasService.getPartesByLegajo(legajo);
+		if (partesDeHoras.isEmpty()) {
+			return tareasTotales;
+		} else {
+			for (ParteDeHoras parteDeHoras: partesDeHoras.get()){
+				tareasTotales.addAll(tareasDelParteDeHorasService.getTareasByParteDeHoraId(parteDeHoras.getParteDeHorasID()));
+			}
+		}
+		return tareasTotales;
+	}
+
 
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}/horas_trabajadas")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
