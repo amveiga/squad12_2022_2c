@@ -125,7 +125,7 @@ public class TareaDelParteDeHorasService {
     public Collection<TareaDelParteDeHora> obtenerTareasPorEstado (TareaDelParteDeHora[] tareasDelParteDeHoras, String estado) {
         Collection<TareaDelParteDeHora> tareasADevolver = null;
         for (TareaDelParteDeHora tareaDelParteDeHora : tareasDelParteDeHoras) {
-            if (tareaDelParteDeHora.getTareaId().equals(estado)) {
+            if (tareaDelParteDeHora.getEstado().equals(estado)) {
                 tareasADevolver.add(tareaDelParteDeHora);
             }
         }
