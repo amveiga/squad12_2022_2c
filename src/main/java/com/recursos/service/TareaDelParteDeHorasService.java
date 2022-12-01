@@ -106,7 +106,7 @@ public class TareaDelParteDeHorasService {
         guardar(tareaDelParteDeHoras);
     }
 
-    public int obtenerCantidadDeHorasTotalesDeUnaTarea (TareaDelParteDeHora[] tareasDelParteDeHoras, String tareaId) {
+    public int obtenerCantidadDeHorasTotalesDeUnaTarea (Collection<TareaDelParteDeHora> tareasDelParteDeHoras, String tareaId) {
         int horasTotales = 0;
         for (TareaDelParteDeHora tareaDelParteDeHora : tareasDelParteDeHoras) {
             if (tareaDelParteDeHora.getTareaId().equals(tareaId)) {

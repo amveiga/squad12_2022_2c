@@ -188,8 +188,8 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
-	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
-		tareasDelParteDeHorasService.modificarCantHoras(tareaDelParteDeHoraId, cantidadDeHorasNuevas);
+	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody TareaDelParteDeHora tareaDelParteDeHora) {
+		tareasDelParteDeHorasService.modificarCantHoras(tareaDelParteDeHoraId, tareaDelParteDeHora.getCantidadDeHorasTrabajadas());
 		return ResponseEntity.ok().build();
 	}
 

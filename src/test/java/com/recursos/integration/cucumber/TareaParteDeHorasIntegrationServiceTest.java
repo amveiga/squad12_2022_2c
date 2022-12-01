@@ -26,9 +26,10 @@ public class TareaParteDeHorasIntegrationServiceTest {
     TareaDelParteDeHorasService tareaService;
 
 
-    TareaDelParteDeHora crearTarea(int horas, String estado, Date date, String proyectoId) {
+    TareaDelParteDeHora crearTarea(int horas, String tareaId, String estado, Date date, String proyectoId) {
         TareaDelParteDeHora tarea = new TareaDelParteDeHora();
         tarea.setCantidadDeHorasTrabajadas(horas);
+        tarea.setTareaId(tareaId);
         tarea.setEstado(estado);
         tarea.setFechaDeLaTareaACargar(date);
         tarea.setProyectoId(proyectoId);
@@ -49,6 +50,10 @@ public class TareaParteDeHorasIntegrationServiceTest {
     Collection<TareaDelParteDeHora> getTareasDeProyecto(String proyectoId, String estado) {
         return  tareaService.obtenerTareasPorProyectoId(proyectoId, estado);
     }
+
+//    int calcularHorasPorIdyEstado(String estado, String tareaId, String proyectoId) {
+//        return tareaService.obtenerCantidadDeHorasTotalesDeUnaTarea(tareaService.obtenerTareasPorProyectoId(proyectoId, estado), tareaId);
+//    }
     Collection<TareaDelParteDeHora> getEntreFechas(Date inicio, Date fin, Collection<TareaDelParteDeHora> tareas) {
         return tareaService.obtenerTareasEntreFechas(tareas, inicio, fin);
     }

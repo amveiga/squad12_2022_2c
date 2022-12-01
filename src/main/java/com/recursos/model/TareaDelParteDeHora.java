@@ -38,8 +38,12 @@ public class TareaDelParteDeHora {
 
     private Tipo tipoDeParteDeHoras;
 
+    public String descripcion;
+
     public TareaDelParteDeHora()  {
     }
+
+
 
     // GETTERS
     public Long getTareaDelParteDeHoraId() { return tareaDelParteDeHoraId; }
@@ -51,6 +55,7 @@ public class TareaDelParteDeHora {
     public int getCantidadDeHorasTrabajadas() { return cantidadDeHorasTrabajadas; }
     public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
     public String getEstado() { return estado; }
+    public String getDescripcion() { return descripcion; }
 
     // SETTERS
     public void setParteDeHoraId(Long parteDeHoraId) { this.parteDeHoraId = parteDeHoraId; }
@@ -61,6 +66,9 @@ public class TareaDelParteDeHora {
     public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }

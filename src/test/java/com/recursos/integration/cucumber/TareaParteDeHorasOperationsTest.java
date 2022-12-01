@@ -40,15 +40,13 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
         System.out.println("Before any test execution");
     }
 
-    @Given("^una tarea con (\\d+) horas y estado \"([^\"]*)\" el \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
-    public void unaTareaConHorasYEstadoElDeProyecto(int horas,
-                                                    String estado,
-                                                    String fecha,
-                                                    String proyecto) throws ParseException {
+    @Given("^una tarea de id \"([^\"]*)\" con (\\d+) horas y estado \"([^\"]*)\" el \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
+    public void unaTareaDeIdConHorasYEstadoElDeProyecto(String tareaid, int horas, String estado, String fecha, String proyecto)
+            throws ParseException {
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
         proyectoId = proyecto;
         try {
-            tarea = crearTarea(horas, estado, date, proyecto);
+            tarea = crearTarea(horas, tareaid, estado, date, proyecto);
         } catch(CantidadHorasInvalidasException
                 | EstadoInvalidoException
                 | LimiteDeCargaSemanaException
@@ -133,9 +131,23 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
             assertEquals(true, validacion);
         }
     }
+    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\"$")
+    public void calculoLaCantidadDeHorasDeConEstado(String tareaId, String estado) {
+    //    calculo = calcularHorasPorIdyEstado(tareaId, estado);
+    }
+    @Then("^retorna la suma total de (\\d+)$")
+    public void retornaLaSumaTotalDe(int suma) {
+        assertEquals(suma, calculo);
+    }
+
     @After
     public void tearDown() {
         System.out.println("After all test execution");
     }
 
+    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
+    public void calculoLaCantidadDeHorasDeConEstadoDeProyecto(String arg0, String arg1, String arg2) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
+    }
 }
