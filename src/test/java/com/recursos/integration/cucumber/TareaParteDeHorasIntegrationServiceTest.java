@@ -1,21 +1,14 @@
 package com.recursos.integration.cucumber;
 
 import com.recursos.ModuloRecursosApp;
-import com.recursos.model.Recurso;
 import com.recursos.model.TareaDelParteDeHora;
-import com.recursos.service.RecursoService;
+import com.recursos.model.TipoEstado;
 import com.recursos.service.TareaDelParteDeHorasService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Optional;
 
 @ContextConfiguration(classes = ModuloRecursosApp.class)
 @WebAppConfiguration
@@ -26,7 +19,7 @@ public class TareaParteDeHorasIntegrationServiceTest {
     TareaDelParteDeHorasService tareaService;
 
 
-    TareaDelParteDeHora crearTarea(int horas, String tareaId, String estado, Date date, String proyectoId) {
+    TareaDelParteDeHora crearTarea(int horas, String tareaId, TipoEstado estado, Date date, String proyectoId) {
         TareaDelParteDeHora tarea = new TareaDelParteDeHora();
         tarea.setCantidadDeHorasTrabajadas(horas);
         tarea.setTareaId(tareaId);
@@ -47,7 +40,7 @@ public class TareaParteDeHorasIntegrationServiceTest {
         return tareaService.getTareaByID(id);
     }
 
-    Collection<TareaDelParteDeHora> getTareasDeProyecto(String proyectoId, String estado) {
+    Collection<TareaDelParteDeHora> getTareasDeProyecto(String proyectoId, TipoEstado estado) {
         return  tareaService.obtenerTareasPorProyectoId(proyectoId, estado);
     }
 

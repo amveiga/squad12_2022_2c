@@ -1,9 +1,8 @@
 package com.recursos.integration.cucumber;
 
 import com.recursos.exceptions.*;
-import com.recursos.model.Recurso;
 import com.recursos.model.TareaDelParteDeHora;
-import cucumber.api.PendingException;
+import com.recursos.model.TipoEstado;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.And;
@@ -16,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -41,7 +39,7 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
     }
 
     @Given("^una tarea de id \"([^\"]*)\" con (\\d+) horas y estado \"([^\"]*)\" el \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
-    public void unaTareaDeIdConHorasYEstadoElDeProyecto(String tareaid, int horas, String estado, String fecha, String proyecto)
+    public void unaTareaDeIdConHorasYEstadoElDeProyecto(String tareaid, int horas, TipoEstado estado, String fecha, String proyecto)
             throws ParseException {
         Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
         proyectoId = proyecto;
@@ -89,7 +87,7 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
 //    }
 
     @Then("^se carga con (\\d+) horas y estado \"([^\"]*)\"$")
-    public void seCargaConHorasYEstado(int horas, String estado) {
+    public void seCargaConHorasYEstado(int horas, TipoEstado estado) {
         assertEquals(horas, tarea.getCantidadDeHorasTrabajadas());
         assertEquals(estado, tarea.getEstado());
     }
@@ -111,7 +109,7 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
     }
 
     @When("^busco tareas entre el \"([^\"]*)\" y el \"([^\"]*)\" en estado \"([^\"]*)\"$")
-    public void buscoTareasEntreElYElEnEstado(String inicio, String fin, String estado) throws ParseException {
+    public void buscoTareasEntreElYElEnEstado(String inicio, String fin, TipoEstado estado) throws ParseException {
         fecha_inicio = new SimpleDateFormat("dd/MM/yyyy").parse(inicio);
         fecha_fin = new SimpleDateFormat("dd/MM/yyyy").parse(fin);
         Collection<TareaDelParteDeHora> tareas = getTareasDeProyecto(proyectoId, estado);
