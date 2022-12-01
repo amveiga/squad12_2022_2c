@@ -170,6 +170,19 @@ public class ModuloRecursosApp {
 		return tareasTotales;
 	}
 
+	@GetMapping("/recursos/{legajo}/tareas/estado")
+	@ApiOperation(value = "Obtener las tareas de un legajo segun un estado")
+	public Collection<TareaDelParteDeHora> getTareasByLegajoAndEstado(@PathVariable Long legajo, @RequestParam String estado) {
+		Collection<TareaDelParteDeHora> tareasDelParteDeHora = getTareasByLegajo(legajo);
+		Collection<TareaDelParteDeHora> filteredTareas = new ArrayList<>();
+		for (TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHora) {
+			if (tareaDelParteDeHora.getEstado().equals(estado)) {
+				filteredTareas.add(tareaDelParteDeHora);
+			}
+		}
+		return filteredTareas;
+	}
+
 
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}/horas_trabajadas")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
