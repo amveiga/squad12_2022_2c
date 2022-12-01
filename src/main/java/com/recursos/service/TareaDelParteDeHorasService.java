@@ -4,6 +4,7 @@ import com.recursos.exceptions.*;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -122,4 +123,16 @@ public class TareaDelParteDeHorasService {
     public Collection<TareaDelParteDeHora> obtenerTareasPorProyectoId(String proyectoId, String estado) {
         return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByProyectoIdAndEstado(proyectoId, estado);
     }
+
+
+    public Collection<TareaDelParteDeHora> obtenerTareasEntreFechas(Collection<TareaDelParteDeHora> tareasPorProyecto, Date fechaInicio, Date fechaFin) {
+        Collection<TareaDelParteDeHora> tareasADevolver = new ArrayList<>();
+        for (TareaDelParteDeHora tareaDelParteDeHora : tareasPorProyecto) {
+            if ((tareaDelParteDeHora.getFechaDeLaTareaACargar()).after(fechaInicio) && tareaDelParteDeHora.getFechaDeLaTareaACargar().before(fechaFin)) {
+                tareasADevolver.add(tareaDelParteDeHora);
+            }
+        }
+        return tareasADevolver;
+    }
+
 }

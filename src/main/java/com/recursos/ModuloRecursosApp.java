@@ -1,9 +1,6 @@
 package com.recursos;
 
 import com.recursos.exceptions.LegajoNoEncontradoException;
-import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
-import com.recursos.exceptions.ParteDeHorasNoEncontradoException;
-import com.recursos.exceptions.TareaNoEncontradaException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
@@ -29,6 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -206,9 +204,16 @@ public class ModuloRecursosApp {
 	}
 
 	@GetMapping("/reportes/tareas/proyecto")
-	@ApiOperation(value = "obtener todas las tareas aprobadas de un cierto proyecto")
+	@ApiOperation(value = "Obtener todas las tareas aprobadas de un cierto proyecto")
 	public Collection<TareaDelParteDeHora> getTareasPorProyecto(@RequestParam String proyectoId) {
 		return tareasDelParteDeHorasService.obtenerTareasPorProyectoId(proyectoId, "APROBADO");
+	}
+
+
+	@GetMapping("/reportes/tareas/fechas")
+	@ApiOperation(value = "Obtener todas las tareas aprobadas entre cierta fecha")
+	public Collection<TareaDelParteDeHora> getTareasPorFecha(@RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+		return tareasDelParteDeHorasService.obtenerTareasEntreFechas(getTareasPorEstado("APROBADO"), fechaInicio, fechaFin);
 	}
 
 
