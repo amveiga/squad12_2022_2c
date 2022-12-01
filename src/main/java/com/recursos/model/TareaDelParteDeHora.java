@@ -1,5 +1,7 @@
 package com.recursos.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +29,7 @@ public class TareaDelParteDeHora {
     private String proyectoId;
     private String tareaId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaDeTareaACargar;
 
     private int cantidadDeHorasTrabajadas;
