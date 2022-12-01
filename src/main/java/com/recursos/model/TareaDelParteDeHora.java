@@ -47,6 +47,8 @@ public class TareaDelParteDeHora {
     public String getTareaId() { return tareaId; }
     public String getProyectoId() { return proyectoId; }
 
+    public String getDescripcion() { return descripcion; }
+
     public Date getFechaDeLaTareaACargar() { return fechaDeTareaACargar; }
     public int getCantidadDeHorasTrabajadas() { return cantidadDeHorasTrabajadas; }
     public TipoTarea getTipoDeTarea() { return tipoDeTarea; }
@@ -62,5 +64,7 @@ public class TareaDelParteDeHora {
     public void setEstado(TipoEstado estado) {
         this.estado = estado;
     }
+
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
 }
