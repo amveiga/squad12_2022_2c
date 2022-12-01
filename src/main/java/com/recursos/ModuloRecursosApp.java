@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -169,6 +170,19 @@ public class ModuloRecursosApp {
 		return tareasTotales;
 	}
 
+	@GetMapping("/recursos/{legajo}/tareas/estado")
+	@ApiOperation(value = "Obtener las tareas de un legajo segun un estado")
+	public Collection<TareaDelParteDeHora> getTareasByLegajoAndEstado(@PathVariable Long legajo, @RequestParam String estado) {
+		Collection<TareaDelParteDeHora> tareasDelParteDeHora = getTareasByLegajo(legajo);
+		Collection<TareaDelParteDeHora> filteredTareas = new ArrayList<>();
+		for (TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHora) {
+			if (tareaDelParteDeHora.getEstado().equals(estado)) {
+				filteredTareas.add(tareaDelParteDeHora);
+			}
+		}
+		return filteredTareas;
+	}
+
 
 	@PutMapping("/recursos/{tareaDelParteDeHoraId}/horas_trabajadas")
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
@@ -212,7 +226,7 @@ public class ModuloRecursosApp {
 
 	@GetMapping("/reportes/tareas/fechas")
 	@ApiOperation(value = "Obtener todas las tareas aprobadas entre cierta fecha")
-	public Collection<TareaDelParteDeHora> getTareasPorFecha(@RequestParam Date fechaInicio, @RequestParam Date fechaFin) {
+	public Collection<TareaDelParteDeHora> getTareasPorFecha(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
 		return tareasDelParteDeHorasService.obtenerTareasEntreFechas(getTareasPorEstado("APROBADO"), fechaInicio, fechaFin);
 	}
 
