@@ -1,10 +1,10 @@
 package com.recursos;
 
+import com.recursos.exceptions.LegajoNoEncontradoException;
 import com.recursos.model.ParteDeHoras;
 import com.recursos.model.Recurso;
 
 import com.recursos.model.TareaDelParteDeHora;
-import com.recursos.model.TipoEstado;
 import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
 import com.recursos.service.TareaDelParteDeHorasService;
@@ -172,7 +172,7 @@ public class ModuloRecursosApp {
 
 	@GetMapping("/recursos/{legajo}/tareas/estado")
 	@ApiOperation(value = "Obtener las tareas de un legajo segun un estado")
-	public Collection<TareaDelParteDeHora> getTareasByLegajoAndEstado(@PathVariable Long legajo, @RequestParam TipoEstado estado) {
+	public Collection<TareaDelParteDeHora> getTareasByLegajoAndEstado(@PathVariable Long legajo, @RequestParam String estado) {
 		Collection<TareaDelParteDeHora> tareasDelParteDeHora = getTareasByLegajo(legajo);
 		Collection<TareaDelParteDeHora> filteredTareas = new ArrayList<>();
 		for (TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHora) {
@@ -188,8 +188,8 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Modificar la cantidad de horas trabajadas de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"No se puede cargar una cantidad de horas menor o igual a 0")
-	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody int cantidadDeHorasNuevas) {
-		tareasDelParteDeHorasService.modificarCantHoras(tareaDelParteDeHoraId, cantidadDeHorasNuevas);
+	public ResponseEntity<ParteDeHoras> updateCantidadDeHorasTrabajadasDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody TareaDelParteDeHora tareaDelParteDeHora) {
+		tareasDelParteDeHorasService.modificarCantHoras(tareaDelParteDeHoraId, tareaDelParteDeHora.getCantidadDeHorasTrabajadas());
 		return ResponseEntity.ok().build();
 	}
 
@@ -197,8 +197,8 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Modificar el estado de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n")
-	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody TipoEstado estado) {
-		tareasDelParteDeHorasService.modificarEstado(tareaDelParteDeHoraId, estado);
+	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody TareaDelParteDeHora tareaDelParteDeHora) {
+		tareasDelParteDeHorasService.modificarEstado(tareaDelParteDeHoraId, tareaDelParteDeHora.getEstado());
 		return ResponseEntity.ok().build();
 	}
 
@@ -213,21 +213,21 @@ public class ModuloRecursosApp {
 
 	@GetMapping("/reportes/tareas/estados")
 	@ApiOperation(value = "obtener todas las tareas de un cierto estado")
-	public Collection<TareaDelParteDeHora> getTareasPorEstado(@RequestParam TipoEstado estado) {
+	public Collection<TareaDelParteDeHora> getTareasPorEstado(@RequestParam String estado) {
 		return tareasDelParteDeHorasService.obtenerTareasPorEstado(estado);
 	}
 
 	@GetMapping("/reportes/tareas/proyecto")
 	@ApiOperation(value = "Obtener todas las tareas aprobadas de un cierto proyecto")
 	public Collection<TareaDelParteDeHora> getTareasPorProyecto(@RequestParam String proyectoId) {
-		return tareasDelParteDeHorasService.obtenerTareasPorProyectoId(proyectoId, TipoEstado.APROBADO);
+		return tareasDelParteDeHorasService.obtenerTareasPorProyectoId(proyectoId, "APROBADO");
 	}
 
 
 	@GetMapping("/reportes/tareas/fechas")
 	@ApiOperation(value = "Obtener todas las tareas aprobadas entre cierta fecha")
 	public Collection<TareaDelParteDeHora> getTareasPorFecha(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
-		return tareasDelParteDeHorasService.obtenerTareasEntreFechas(getTareasPorEstado(TipoEstado.APROBADO), fechaInicio, fechaFin);
+		return tareasDelParteDeHorasService.obtenerTareasEntreFechas(getTareasPorEstado("APROBADO"), fechaInicio, fechaFin);
 	}
 
 

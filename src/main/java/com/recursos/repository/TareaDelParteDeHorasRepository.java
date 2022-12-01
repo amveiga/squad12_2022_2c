@@ -19,8 +19,6 @@ public interface TareaDelParteDeHorasRepository extends CrudRepository<TareaDelP
 
     Collection<TareaDelParteDeHora> findTareaDelParteDeHoraByProyectoIdAndEstado(String proyectoId, TipoEstado estado);
 
-    //Collection<TareaDelParteDeHora> findTareaDelParteDeHoraByFechaDeLaTareaACargarBetween(Date fechaInicio, Date fechaFin);
-
 
     @Override
     List<TareaDelParteDeHora> findAll();
