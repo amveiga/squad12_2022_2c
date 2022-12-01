@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Optional;
 
 @ContextConfiguration(classes = ModuloRecursosApp.class)
@@ -22,10 +23,11 @@ public class TareaParteDeHorasIntegrationServiceTest {
     @Autowired
     TareaDelParteDeHorasService tareaService;
 
-    TareaDelParteDeHora crearTarea(int horas, String estado) {
+    TareaDelParteDeHora crearTarea(int horas, String estado, Date date) {
         TareaDelParteDeHora tarea = new TareaDelParteDeHora();
         tarea.setCantidadDeHorasTrabajadas(horas);
         tarea.setEstado(estado);
+        tarea.setFechaDeLaTareaACargar(date);
         TareaDelParteDeHora[] tareasDelParteDeHoras = {tarea};
         tareaService.validateTasks(tareasDelParteDeHoras);
         tareaService.saveAll(tareasDelParteDeHoras, 0L);

@@ -1,16 +1,20 @@
 package com.recursos.integration.cucumber;
 
-import com.recursos.exceptions.LegajoNoEncontradoException;
+import com.recursos.exceptions.*;
 import com.recursos.model.Recurso;
 import com.recursos.model.TareaDelParteDeHora;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
+import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -26,24 +30,28 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
         System.out.println("Before any test execution");
     }
 
-    @Given("^una tarea con (\\d+) horas y estado \"([^\"]*)\"$")
-    public void unaTareaConHorasYEstado(int horas, String estado) {
+    @Given("^una tarea con (\\d+) horas y estado \"([^\"]*)\" el \"([^\"]*)\"$")
+    public void unaTareaConHorasYEstadoEl(int horas, String estado, String fecha) throws ParseException {
+        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
         try {
-            tarea = crearTarea(horas, estado);
-        } catch(Exception e) {
+            tarea = crearTarea(horas, estado, date);
+        } catch(CantidadHorasInvalidasException
+                | EstadoInvalidoException
+                | LimiteDeCargaSemanaException
+                | LegajoNoEncontradoException e) {
             exception = e;
         }
     }
 
-    @When("^modifico las horas trabajadas por (\\d+)$")
-    public void modificoLasHorasTrabajadasPor(int horasNuevas) {
-        try {
-            Long id = tarea.getTareaDelParteDeHoraId();
-            modificarHoras(horasNuevas, id);
-        } catch(Exception e) {
-            exception = e;
-        }
-    }
+//    @When("^modifico las horas trabajadas por (\\d+)$")
+//    public void modificoLasHorasTrabajadasPor(int horasNuevas) {
+//        try {
+//            Long id = tarea.getTareaDelParteDeHoraId();
+//            modificarHoras(horasNuevas, id);
+//        } catch(CantidadHorasInvalidasException | NoSePuedeModificarUnParteAprobadoException e) {
+//            exception = e;
+//        }
+//    }
 
     @Then("^no es posible modificarla$")
     public void noEsPosibleModificarla() {
@@ -59,12 +67,24 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
     public void laCargo() {
     }
 
-    @Given("^una tarea con -(\\d+) horas y estado \"([^\"]*)\"$")
-    public void unaTareaConHorasNegativasYEstado(int horas, String estado) {
-        try {
-            tarea = crearTarea(horas, estado);
-        } catch(Exception e) {
-            exception = e;
-        }
+//    @Given("^una tarea con -(\\d+) horas y estado \"([^\"]*)\"$")
+//    public void unaTareaConHorasNegativasYEstado(int horas, String estado) {
+//        try {
+//            tarea = crearTarea(horas, estado);
+//        } catch(Exception e) {
+//            exception = e;
+//        }
+//    }
+
+    @Then("^se carga con (\\d+) horas y estado \"([^\"]*)\"$")
+    public void seCargaConHorasYEstado(int horas, String estado) {
+        assertEquals(horas, tarea.getCantidadDeHorasTrabajadas());
+        assertEquals(estado, tarea.getEstado());
+    }
+
+    @And("^la tarea queda con (\\d+) horas$")
+    public void laTareaQuedaConHoras(int horas) {
+        int horasTarea = tarea.getCantidadDeHorasTrabajadas();
+        assertEquals(horas, horasTarea);
     }
 }
