@@ -1,7 +1,6 @@
 package com.recursos.service;
 
-import com.recursos.exceptions.NoSePuedeModificarUnParteAprobadoException;
-import com.recursos.exceptions.TareaNoEncontradaException;
+import com.recursos.exceptions.*;
 import com.recursos.model.TareaDelParteDeHora;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ public class TareaDelParteDeHorasService {
     @Autowired
     private TareaDelParteDeHorasRepository tareaDelParteDeHorasRepository;
 
-    public TareaDelParteDeHora save(TareaDelParteDeHora tareaDelParteDeHora) {
+    public TareaDelParteDeHora guardar(TareaDelParteDeHora tareaDelParteDeHora) {
         return tareaDelParteDeHorasRepository.save(tareaDelParteDeHora);
     }
 
@@ -35,45 +34,50 @@ public class TareaDelParteDeHorasService {
         return (c.getTime());
     }
 
-    public boolean validarCantidadDeHorasTrabajadas (int cantidadDeHorasTrabajadas) {
-        return cantidadDeHorasTrabajadas > 0;
+    public void validarCantidadDeHorasTrabajadas (int cantidadDeHorasTrabajadas) {
+        if (cantidadDeHorasTrabajadas <= 0) {
+            throw new CantidadHorasInvalidasException("Cantidad de horas ingresadas invalida");
+        }
     }
 
-
-    public boolean verificarEntradaEstado(String estadoNuevo) {
-        //throw new EstadoInvalidoException("Estado invalido");
-        return (estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO"));
+    public void verificarEntradaEstado(String estadoNuevo) {
+        if (!((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO")))) {
+            throw new EstadoInvalidoException("Estado invalido");
+        }
     }
 
-    public boolean verificarSiYaEstaAprobado(String estado) {
+    public void verificarSiYaEstaAprobado(String estado) {
         if ( estado.equalsIgnoreCase("APROBADO") ) {
-            return true;
-            //throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
+            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
         }
-        return false;
     }
 
-    public boolean validateTasks(TareaDelParteDeHora[] tareasDelParteDeHoras) {
+    public void verificarSiYaPasoUnaSemana(Date fechaDeTareaACargar) {
         Date aWeekAgo = calcularSemanaAnterior();
-        for ( TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHoras) {
-            if (tareaDelParteDeHora.getFechaDeLaTareaACargar().before(aWeekAgo) ||
-                !validarCantidadDeHorasTrabajadas(tareaDelParteDeHora.getCantidadDeHorasTrabajadas()) ||
-                !verificarEntradaEstado(tareaDelParteDeHora.getEstado())) {
-                return false;
-            }
+        if (fechaDeTareaACargar.before(aWeekAgo)) {
+            throw new LimiteDeCargaSemanaException("No se puede cargar una tarea con una semana de antiguedad");
         }
-        return true;
+    }
+
+    public void validateTasks(TareaDelParteDeHora[] tareasDelParteDeHoras) {
+        for ( TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHoras) {
+            validarCantidadDeHorasTrabajadas(tareaDelParteDeHora.getCantidadDeHorasTrabajadas());
+            verificarEntradaEstado(tareaDelParteDeHora.getEstado());
+            verificarSiYaPasoUnaSemana(tareaDelParteDeHora.getFechaDeLaTareaACargar());
+        }
     }
 
     public void saveAll(TareaDelParteDeHora[] tareasDelParteDeHoras, Long parteDeHorasID) {
         for (TareaDelParteDeHora tareaDelParteDeHora: tareasDelParteDeHoras) {
             tareaDelParteDeHora.setParteDeHoraId(parteDeHorasID);
-            tareaDelParteDeHorasRepository.save(tareaDelParteDeHora);
+            guardar(tareaDelParteDeHora);
         }
     }
 
-    public boolean existsById(Long tareaDelParteDeHoraId) {
-        return tareaDelParteDeHorasRepository.existsById(tareaDelParteDeHoraId);
+    public void existsById(Long tareaDelParteDeHoraId) {
+        if (!tareaDelParteDeHorasRepository.existsById(tareaDelParteDeHoraId)) {
+            throw new TareaNoEncontradaException("La tarea no fue encontrada");
+        }
     }
 
     public TareaDelParteDeHora getTareaByID(Long tareaDelParteDeHoraId) {
@@ -84,29 +88,21 @@ public class TareaDelParteDeHorasService {
         return tareaDelParteDeHorasRepository.findByParteDeHoraId(parteDeHorasId);
     }
     public void modificarCantHoras(Long tareaDelParteDeHoraId, int horasNuevas) {
-        if( !existsById(tareaDelParteDeHoraId) ||
-                !validarCantidadDeHorasTrabajadas(horasNuevas) ) {
-            throw new TareaNoEncontradaException("Error en la carga de la tarea");
-        }
+        existsById(tareaDelParteDeHoraId);
+        validarCantidadDeHorasTrabajadas(horasNuevas);
         TareaDelParteDeHora tareaDelParteDeHoras = getTareaByID(tareaDelParteDeHoraId);
-        if (verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
-            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
-        }
+        verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado());
         tareaDelParteDeHoras.setCantidadDeHorasTrabajadas(horasNuevas);
-        save(tareaDelParteDeHoras);
+        guardar(tareaDelParteDeHoras);
     }
 
     public void modificarEstado(Long tareaDelParteDeHoraId, String estadoNuevo) {
-        if( !existsById(tareaDelParteDeHoraId) ||
-                !verificarEntradaEstado(estadoNuevo) ) {
-            throw new TareaNoEncontradaException("Error en la carga de la tarea");
-        }
+        existsById(tareaDelParteDeHoraId);
+        verificarEntradaEstado(estadoNuevo);
         TareaDelParteDeHora tareaDelParteDeHoras = getTareaByID(tareaDelParteDeHoraId);
-        if (verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado())) {
-            throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
-        }
+        verificarSiYaEstaAprobado(tareaDelParteDeHoras.getEstado());
         tareaDelParteDeHoras.setEstado(estadoNuevo);
-        save(tareaDelParteDeHoras);
+        guardar(tareaDelParteDeHoras);
     }
 
     public int obtenerCantidadDeHorasTotalesDeUnaTarea (TareaDelParteDeHora[] tareasDelParteDeHoras, String tareaId) {

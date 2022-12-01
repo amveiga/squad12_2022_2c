@@ -30,3 +30,11 @@ PARTE_DE_HORAS [42001-200]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "TAREA_DEL_PARTE_DE_HORA[*]"; se esperaba "TRUNCATE"
 Syntax error in SQL statement "TAREA_DEL_PARTE_DE_HORA[*]"; expected "TRUNCATE"; SQL statement:
 TAREA_DEL_PARTE_DE_HORA [42001-200]
+2022-11-30 21:07:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
+Table "RECURSO" not found; SQL statement:
+select count(*) as col_0_0_ from recurso recurso0_ where recurso0_.legajo=? [42102-200]
+2022-11-30 21:07:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "RECURSO" no encontrada
+Table "RECURSO" not found; SQL statement:
+select count(*) as col_0_0_ from recurso recurso0_ where recurso0_.legajo=? [42102-200]

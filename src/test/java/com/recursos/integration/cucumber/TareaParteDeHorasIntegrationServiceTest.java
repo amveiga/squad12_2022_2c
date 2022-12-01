@@ -22,13 +22,17 @@ public class TareaParteDeHorasIntegrationServiceTest {
     @Autowired
     TareaDelParteDeHorasService tareaService;
 
-    TareaDelParteDeHora crearTarea(int horas) {
+    TareaDelParteDeHora crearTarea(int horas, String estado) {
         TareaDelParteDeHora tarea = new TareaDelParteDeHora();
         tarea.setCantidadDeHorasTrabajadas(horas);
-        return tarea; //todo necesito pasar la logica de la app al servicio para testear
+        tarea.setEstado(estado);
+        TareaDelParteDeHora[] tareasDelParteDeHoras = {tarea};
+        tareaService.validateTasks(tareasDelParteDeHoras);
+        tareaService.saveAll(tareasDelParteDeHoras, 0L);
+        return tarea;
     }
 
-    void modificarHoras(int horas) {
-
+    void modificarHoras(int horas, Long id) {
+        tareaService.modificarCantHoras(id, horas);
     }
 }

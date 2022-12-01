@@ -114,10 +114,8 @@ public class ModuloRecursosApp {
 					"Los tipos de tareas posibles son: TAREA_PROYECTO, INCIDENCIA, ADMINISTRATIVA_REUNION, ADMINISTRATIVA_CAPACITACION, ADMINISTRATIVA_CURSO, GUARDIA, LICENCIA")
 	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<ParteDeHoras> createParte(@RequestBody TareaDelParteDeHora[] tareasDelParteDeHoras, @PathVariable Long legajo) {
-		if(!recursoService.existsById(legajo) ||
-			!tareasDelParteDeHorasService.validateTasks(tareasDelParteDeHoras)) {
-			throw new LegajoNoEncontradoException("Error en la carga de datos");
-		}
+		recursoService.existsById(legajo);
+		tareasDelParteDeHorasService.validateTasks(tareasDelParteDeHoras);
 
 		ParteDeHoras parteDeHoras = parteDeHorasService.createParteDeHoras(legajo);
 
@@ -161,9 +159,7 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Obtener todas las tareas de un legajo")
 	public Collection<TareaDelParteDeHora> getTareasByLegajo(@PathVariable Long legajo) {
 		Collection<TareaDelParteDeHora> tareasTotales = new ArrayList<>();
-		if (!recursoService.existsById(legajo)){
-			throw new LegajoNoEncontradoException("Legajo no encontrado");
-		}
+		recursoService.existsById(legajo);
 		Optional<Collection<ParteDeHoras>> partesDeHoras = parteDeHorasService.getPartesByLegajo(legajo);
 		if (partesDeHoras.isEmpty()) {
 			return tareasTotales;

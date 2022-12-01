@@ -39,6 +39,7 @@ public class TareaDelParteDeHora {
     }
 
     // GETTERS
+    public Long getTareaDelParteDeHoraId() { return tareaDelParteDeHoraId; }
     public Long getParteDeHoraId() { return parteDeHoraId; }
     public String getTareaId() { return tareaId; }
     public String getProyectoId() { return proyectoId; }
