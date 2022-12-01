@@ -2,9 +2,9 @@ package com.recursos.service;
 
 import com.recursos.exceptions.*;
 import com.recursos.model.TareaDelParteDeHora;
+import com.recursos.model.TipoEstado;
 import com.recursos.repository.TareaDelParteDeHorasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.convert.Jsr310Converters;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -41,14 +41,14 @@ public class TareaDelParteDeHorasService {
         }
     }
 
-    public void verificarEntradaEstado(String estadoNuevo) {
-        if (!((estadoNuevo.equalsIgnoreCase("BORRADOR")) || (estadoNuevo.equalsIgnoreCase("VALIDACION_PENDIENTE")) || (estadoNuevo.equalsIgnoreCase("APROBADO")) || (estadoNuevo.equalsIgnoreCase("DESAPROBADO")))) {
+    public void verificarEntradaEstado(TipoEstado estadoNuevo) {
+        if (!((estadoNuevo.equals(TipoEstado.BORRADOR)) || (estadoNuevo.equals(TipoEstado.VALIDACION_PENDIENTE)) || (estadoNuevo.equals(TipoEstado.APROBADO)) || (estadoNuevo.equals(TipoEstado.DESAPROBADO)))) {
             throw new EstadoInvalidoException("Estado invalido");
         }
     }
 
-    public void verificarSiYaEstaAprobado(String estado) {
-        if ( estado.equalsIgnoreCase("APROBADO") ) {
+    public void verificarSiYaEstaAprobado(TipoEstado estado) {
+        if ( estado.equals(TipoEstado.APROBADO) ) {
             throw new NoSePuedeModificarUnParteAprobadoException("No se puede modificar un parte ya aprobado");
         }
     }
@@ -97,7 +97,7 @@ public class TareaDelParteDeHorasService {
         guardar(tareaDelParteDeHoras);
     }
 
-    public void modificarEstado(Long tareaDelParteDeHoraId, String estadoNuevo) {
+    public void modificarEstado(Long tareaDelParteDeHoraId, TipoEstado estadoNuevo) {
         existsById(tareaDelParteDeHoraId);
         verificarEntradaEstado(estadoNuevo);
         TareaDelParteDeHora tareaDelParteDeHoras = getTareaByID(tareaDelParteDeHoraId);
@@ -116,11 +116,11 @@ public class TareaDelParteDeHorasService {
         return horasTotales;
     }
 
-    public Collection<TareaDelParteDeHora> obtenerTareasPorEstado (String estado) {
-        return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByEstadoIgnoreCase(estado);
+    public Collection<TareaDelParteDeHora> obtenerTareasPorEstado (TipoEstado estado) {
+        return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByEstado(estado);
     }
 
-    public Collection<TareaDelParteDeHora> obtenerTareasPorProyectoId(String proyectoId, String estado) {
+    public Collection<TareaDelParteDeHora> obtenerTareasPorProyectoId(String proyectoId, TipoEstado estado) {
         return tareaDelParteDeHorasRepository.findTareaDelParteDeHoraByProyectoIdAndEstado(proyectoId, estado);
     }
 

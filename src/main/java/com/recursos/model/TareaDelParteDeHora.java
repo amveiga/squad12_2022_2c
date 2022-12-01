@@ -8,12 +8,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-enum Tipo {
+enum TipoTarea {
     TAREA_PROYECTO,
     INCIDENCIA,
-    ADMINISTRATIVA_REUNION,
-    ADMINISTRATIVA_CAPACITACION,
-    ADMINISTRATIVA_CURSO,
+    ADMINISTRATIVA,
     GUARDIA,
     LICENCIA
 }
@@ -34,9 +32,9 @@ public class TareaDelParteDeHora {
 
     private int cantidadDeHorasTrabajadas;
 
-    private String estado;
+    private TipoEstado estado;
 
-    private Tipo tipoDeParteDeHoras;
+    private TipoTarea tipoDeTarea;
 
     public TareaDelParteDeHora()  {
     }
@@ -49,17 +47,17 @@ public class TareaDelParteDeHora {
 
     public Date getFechaDeLaTareaACargar() { return fechaDeTareaACargar; }
     public int getCantidadDeHorasTrabajadas() { return cantidadDeHorasTrabajadas; }
-    public Tipo getTipoDeParteDeHoras() { return tipoDeParteDeHoras; }
-    public String getEstado() { return estado; }
+    public TipoTarea getTipoDeTarea() { return tipoDeTarea; }
+    public TipoEstado getEstado() { return estado; }
 
     // SETTERS
     public void setParteDeHoraId(Long parteDeHoraId) { this.parteDeHoraId = parteDeHoraId; }
     public void setTareaId(String tareaId) { this.tareaId = tareaId; }
     public void setProyectoId(String proyectoId) { this.proyectoId = proyectoId; }
     public void setFechaDeLaTareaACargar(Date fechaDeTareaACargar) { this.fechaDeTareaACargar = fechaDeTareaACargar; }
-    public void setTipoDeParteDeHoras(Tipo tipoDeParteDeHoras) { this.tipoDeParteDeHoras = tipoDeParteDeHoras; }
+    public void setTipoDeTarea(TipoTarea tipoDeParteDeHoras) { this.tipoDeTarea = tipoDeParteDeHoras; }
     public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
-    public void setEstado(String estado) {
+    public void setEstado(TipoEstado estado) {
         this.estado = estado;
     }
 
