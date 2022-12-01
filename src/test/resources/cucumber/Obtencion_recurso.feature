@@ -32,7 +32,7 @@ Feature: Obtencion de recurso
 
   Scenario: Obtencion de recurso por legajo fallida
     Given un recurso de nombre "Pedro", apellido "Gallino" y legajo 107588
-    When lo busco por legajo 107589
+    When lo busco por legajo 100000
     Then no se encuentra el recurso
 
   Scenario: Obtencion de recurso por nombre fallida

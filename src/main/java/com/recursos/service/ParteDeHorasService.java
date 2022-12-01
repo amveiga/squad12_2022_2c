@@ -37,7 +37,7 @@ public class ParteDeHorasService {
     }
 
 
-    public ParteDeHoras getPartesByID(Long parteDeHorasID) {
+    public ParteDeHoras getParteByID(Long parteDeHorasID) {
         ParteDeHoras parteDeHoras = parteDeHorasRepository.findParteDeHorasByParteDeHorasID(parteDeHorasID);
         if (parteDeHoras == null) {
             throw new ParteDeHorasNoEncontradoException("No se encontró el parte de horas");
