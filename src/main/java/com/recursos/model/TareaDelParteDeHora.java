@@ -27,6 +27,8 @@ public class TareaDelParteDeHora {
     private String proyectoId;
     private String tareaId;
 
+    private String descripcion;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fechaDeTareaACargar;
 
