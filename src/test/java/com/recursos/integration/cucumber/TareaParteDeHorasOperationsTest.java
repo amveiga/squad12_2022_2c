@@ -131,23 +131,22 @@ public class TareaParteDeHorasOperationsTest extends TareaParteDeHorasIntegratio
             assertEquals(true, validacion);
         }
     }
-    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\"$")
-    public void calculoLaCantidadDeHorasDeConEstado(String tareaId, String estado) {
-    //    calculo = calcularHorasPorIdyEstado(tareaId, estado);
-    }
-    @Then("^retorna la suma total de (\\d+)$")
-    public void retornaLaSumaTotalDe(int suma) {
-        assertEquals(suma, calculo);
-    }
+//    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\"$")
+//    public void calculoLaCantidadDeHorasDeConEstado(String tareaId, String estado) {
+//    //    calculo = calcularHorasPorIdyEstado(tareaId, estado);
+//    }
+//    @Then("^retorna la suma total de (\\d+)$")
+//    public void retornaLaSumaTotalDe(int suma) {
+//        assertEquals(suma, calculo);
+//    }
+//    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
+//    public void calculoLaCantidadDeHorasDeConEstadoDeProyecto(String arg0, String arg1, String arg2) throws Throwable {
+//        // Write code here that turns the phrase above into concrete actions
+//        throw new PendingException();
+//    }
 
     @After
     public void tearDown() {
         System.out.println("After all test execution");
-    }
-
-    @When("^calculo la cantidad de horas de \"([^\"]*)\" con estado \"([^\"]*)\" de proyecto \"([^\"]*)\"$")
-    public void calculoLaCantidadDeHorasDeConEstadoDeProyecto(String arg0, String arg1, String arg2) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 }

@@ -197,8 +197,8 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Modificar el estado de una tarea",
 			notes = "No se puede modificar un parte de horas que ya fue aprobado\n" +
 					"Los estados posibles son: BORRADOR, VALIDACION_PENDIENTE, APROBADO, DESAPROBADO\n")
-	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody String estado) {
-		tareasDelParteDeHorasService.modificarEstado(tareaDelParteDeHoraId, estado);
+	public ResponseEntity<ParteDeHoras> updateEstadoDeUnaTarea(@PathVariable Long tareaDelParteDeHoraId, @RequestBody TareaDelParteDeHora tareaDelParteDeHora) {
+		tareasDelParteDeHorasService.modificarEstado(tareaDelParteDeHoraId, tareaDelParteDeHora.getEstado());
 		return ResponseEntity.ok().build();
 	}
 
