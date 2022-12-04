@@ -170,6 +170,7 @@ public class ModuloRecursosApp {
 		return tareasTotales;
 	}
 
+
 	@GetMapping("/recursos/{legajo}/tareas/estado")
 	@ApiOperation(value = "Obtener las tareas de un legajo segun un estado")
 	public Collection<TareaDelParteDeHora> getTareasByLegajoAndEstado(@PathVariable Long legajo, @RequestParam TipoEstado estado) {
@@ -228,6 +229,19 @@ public class ModuloRecursosApp {
 	@ApiOperation(value = "Obtener todas las tareas aprobadas entre cierta fecha")
 	public Collection<TareaDelParteDeHora> getTareasPorFecha(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin) {
 		return tareasDelParteDeHorasService.obtenerTareasEntreFechas(getTareasPorEstado(TipoEstado.APROBADO), fechaInicio, fechaFin);
+	}
+
+	@GetMapping("/reportes/")
+	@ApiOperation("Obtener todas las tareas de un legajo filtrando por legajo y fechas inicio y fin")
+	public Collection<TareaDelParteDeHora> getTareasPorFechaYLegajo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaInicio, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date fechaFin, @RequestParam Long legajo) {
+		Collection<TareaDelParteDeHora> tareasDelLegajo = getTareasByLegajo(legajo);
+		Collection<TareaDelParteDeHora> tareasADevolver = new ArrayList<>();
+		for (TareaDelParteDeHora tareaDelLegajo: tareasDelLegajo){
+			if ((tareaDelLegajo.getFechaDeLaTareaACargar()).after(fechaInicio) && tareaDelLegajo.getFechaDeLaTareaACargar().before(fechaFin)){
+				tareasADevolver.add(tareaDelLegajo);
+			}
+		}
+		return tareasADevolver;
 	}
 
 
