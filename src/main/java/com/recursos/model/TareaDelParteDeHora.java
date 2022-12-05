@@ -56,7 +56,7 @@ public class TareaDelParteDeHora {
     public void setTareaId(String tareaId) { this.tareaId = tareaId; }
     public void setNombreTarea(String nombreTarea) { this.nombreTarea = nombreTarea; }
     public void setProyectoId(String proyectoId) { this.proyectoId = proyectoId; }
-    public void setNombreProyecto(String nombreProyecto) { this.proyectoId = nombreProyecto; }
+    public void setNombreProyecto(String nombreProyecto) { this.nombreProyecto = nombreProyecto; }
     public void setFechaDeLaTareaACargar(Date fechaDeTareaACargar) { this.fechaDeTareaACargar = fechaDeTareaACargar; }
     public void setTipoDeTarea(TipoTarea tipoDeParteDeHoras) { this.tipoDeTarea = tipoDeParteDeHoras; }
     public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
