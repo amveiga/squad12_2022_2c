@@ -1,10 +1,7 @@
 package com.recursos;
 
-import com.recursos.model.ParteDeHoras;
-import com.recursos.model.Recurso;
+import com.recursos.model.*;
 
-import com.recursos.model.TareaDelParteDeHora;
-import com.recursos.model.TipoEstado;
 import com.recursos.service.ParteDeHorasService;
 import com.recursos.service.RecursoService;
 import com.recursos.service.TareaDelParteDeHorasService;
@@ -142,8 +139,6 @@ public class ModuloRecursosApp {
 	public void deleteParteDeHoras(@PathVariable Long parteDeHorasID) {
 		parteDeHorasService.deleteById(parteDeHorasID);
 	}
-
-
 
 	// ******   TAREAS  ******
 

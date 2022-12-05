@@ -105,3 +105,7 @@ Wrong user name or password [28000-200]
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:461)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
 	... 55 more
+2022-12-04 20:35:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "NOMBRE_TAREA VARCHAR(255)": "'{""_id"":""6388db29fbf3b5572f8323ab"",""name"":""Desarrollar MVP"",""description"":""Se necesita un MVP el cual muestre el listado de alum... (425)"
+Value too long for column "NOMBRE_TAREA VARCHAR(255)": "'{""_id"":""6388db29fbf3b5572f8323ab"",""name"":""Desarrollar MVP"",""description"":""Se necesita un MVP el cual muestre el listado de alum... (425)"; SQL statement:
+insert into tarea_del_parte_de_hora (cantidad_de_horas_trabajadas, descripcion, estado, fecha_de_tareaacargar, nombre_proyecto, nombre_tarea, parte_de_hora_id, proyecto_id, tarea_id, tipo_de_tarea, tarea_del_parte_de_hora_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]

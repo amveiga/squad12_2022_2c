@@ -8,14 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-enum TipoTarea {
-    TAREA_PROYECTO,
-    INCIDENCIA,
-    ADMINISTRATIVA,
-    GUARDIA,
-    LICENCIA
-}
-
 @Entity
 public class TareaDelParteDeHora {
     @Id
@@ -25,7 +17,9 @@ public class TareaDelParteDeHora {
     private Long parteDeHoraId;
 
     private String proyectoId;
+    private String nombreProyecto;
     private String tareaId;
+    private String nombreTarea;
 
     private String descripcion;
 
@@ -45,7 +39,10 @@ public class TareaDelParteDeHora {
     public Long getTareaDelParteDeHoraId() { return tareaDelParteDeHoraId; }
     public Long getParteDeHoraId() { return parteDeHoraId; }
     public String getTareaId() { return tareaId; }
+    public String getNombreTarea() { return nombreTarea; }
+
     public String getProyectoId() { return proyectoId; }
+    public String getNombreProyecto() { return nombreProyecto; }
 
     public String getDescripcion() { return descripcion; }
 
@@ -57,7 +54,9 @@ public class TareaDelParteDeHora {
     // SETTERS
     public void setParteDeHoraId(Long parteDeHoraId) { this.parteDeHoraId = parteDeHoraId; }
     public void setTareaId(String tareaId) { this.tareaId = tareaId; }
+    public void setNombreTarea(String nombreTarea) { this.nombreTarea = nombreTarea; }
     public void setProyectoId(String proyectoId) { this.proyectoId = proyectoId; }
+    public void setNombreProyecto(String nombreProyecto) { this.proyectoId = nombreProyecto; }
     public void setFechaDeLaTareaACargar(Date fechaDeTareaACargar) { this.fechaDeTareaACargar = fechaDeTareaACargar; }
     public void setTipoDeTarea(TipoTarea tipoDeParteDeHoras) { this.tipoDeTarea = tipoDeParteDeHoras; }
     public void setCantidadDeHorasTrabajadas(int cantidadDeHorasTrabajadas) { this.cantidadDeHorasTrabajadas = cantidadDeHorasTrabajadas; }
